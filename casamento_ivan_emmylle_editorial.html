@@ -1,0 +1,2954 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O Casamento de Ivan &amp; Emmylle • 20.11.2027</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- QRCode.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            950: '#081120',
+                            900: '#0F1E36',
+                            800: '#162C4E',
+                            700: '#1F3B68',
+                        },
+                        serene: {
+                            50: '#F4F8FC',
+                            100: '#E5EFF8',
+                            200: '#C8DDF0',
+                            300: '#A3C1E0',
+                            400: '#8BA8C7',
+                            500: '#5F84AC',
+                        },
+                        wood: {
+                            100: '#F6EFE6',
+                            200: '#E7D5C0',
+                            300: '#CFA87E',
+                            400: '#B08954',
+                            500: '#8C6239',
+                            600: '#5C3E21',
+                        },
+                        ivory: '#FAF8F5'
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FAF8F5;
+            color: #0F1E36;
+        }
+
+        /* Fusão semitransparente da foto de abertura sobre azul-marinho profundo */
+        .hero-photo-blend {
+            opacity: 0.45;
+            mix-blend-mode: luminosity;
+            filter: contrast(1.08) brightness(0.95);
+            mask-image: radial-gradient(ellipse 76% 78% at 50% 48%, rgba(0,0,0,1) 28%, rgba(0,0,0,0.45) 68%, rgba(0,0,0,0) 100%);
+            -webkit-mask-image: radial-gradient(ellipse 76% 78% at 50% 48%, rgba(0,0,0,1) 28%, rgba(0,0,0,0.45) 68%, rgba(0,0,0,0) 100%);
+        }
+
+        .hero-ambient-glow {
+            background:
+                radial-gradient(circle at 50% 45%, rgba(176, 137, 84, 0.16) 0%, rgba(22, 44, 78, 0.72) 55%, #0F1E36 95%),
+                linear-gradient(180deg, rgba(8, 17, 32, 0.85) 0%, rgba(8, 17, 32, 0.22) 45%, rgba(8, 17, 32, 0.94) 100%);
+        }
+
+        .wood-gradient {
+            background: linear-gradient(135deg, #6E4B2A 0%, #B08954 52%, #5C3E21 100%);
+        }
+
+        /* Controle estrito do Modo Desenvolvedor */
+        body:not(.dev-mode) .dev-only {
+            display: none !important;
+        }
+
+        /* Cartão VIP com recortes laterais */
+        .vip-ticket {
+            position: relative;
+            background: linear-gradient(165deg, #FFFFFF 0%, #F4F8FC 100%);
+        }
+        .vip-ticket::before,
+        .vip-ticket::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background-color: #0F1E36;
+            border-radius: 9999px;
+            top: 66%;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        .vip-ticket::before { left: -12px; }
+        .vip-ticket::after { right: -12px; }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #081120; }
+        ::-webkit-scrollbar-thumb { background: #8BA8C7; border-radius: 999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #B08954; }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-serene-300 selection:text-navy-950 overflow-x-hidden">
+
+    <!-- Notificações Toast -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Input oculto global para trocar fotos individuais (apenas Modo Desenvolvedor) -->
+    <input type="file" id="single-slot-uploader" accept="image/*" class="sr-only" onchange="handleSingleSlotFile(event)">
+
+    <!-- BARRA DISCRETA DE MODO DESENVOLVEDOR ATIVO (Oculta para visitantes) -->
+    <div id="dev-status-bar" class="dev-only sticky top-0 z-50 bg-wood-600 text-white px-4 py-2 text-xs border-b border-wood-300/40 shadow-lg">
+        <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2 font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Modo Desenvolvedor Ativo • Edição de fotos, exclusão de posts e links InfinitePay liberados</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <button onclick="openAdminModal()" class="px-3 py-1 rounded-lg bg-navy-900 hover:bg-navy-800 text-wood-200 font-bold transition">
+                    <i class="fa-solid fa-sliders mr-1"></i> Painel Geral
+                </button>
+                <button onclick="exitDevMode()" class="px-3 py-1 rounded-lg bg-white/15 hover:bg-white/25 text-white font-bold transition">
+                    <i class="fa-solid fa-lock mr-1"></i> Bloquear / Sair
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 1. HERO EDITORIAL CINEMATOGRÁFICO (100VH)  -->
+    <!-- ========================================== -->
+    <section id="inicio" class="relative min-h-screen w-full flex flex-col justify-between bg-navy-900 text-white overflow-hidden">
+        <div class="hero-ambient-glow absolute inset-0 z-0"></div>
+
+        <!-- Imagem Semitransparente Fundida ao Fundo -->
+        <div class="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
+            <img
+                id="slot-img-hero"
+                src=""
+                alt="Ivan e Emmylle"
+                class="hero-photo-blend w-full h-full object-cover object-center transition-all duration-700"
+            >
+        </div>
+
+        <!-- Barra de Navegação Transparente Centralizada no Monograma I & E -->
+        <header class="relative z-30 w-full">
+            <div class="max-w-6xl mx-auto px-4 sm:px-8 h-24 flex items-center justify-between lg:justify-center">
+                <nav class="hidden lg:flex items-center gap-8 text-[11px] uppercase tracking-[0.26em] font-medium text-white/80">
+                    <a href="#inicio" class="hover:text-wood-300 transition">Início</a>
+                    <a href="#historia" class="hover:text-wood-300 transition">Nossa História</a>
+                    <a href="#local" class="hover:text-wood-300 transition">O Local</a>
+                </nav>
+
+                <a href="#inicio" class="lg:mx-14 flex items-center gap-1.5 font-serif text-3xl sm:text-4xl tracking-wider text-white group">
+                    <span>I</span>
+                    <span class="italic text-wood-400 font-normal group-hover:scale-110 transition-transform">&amp;</span>
+                    <span>E</span>
+                </a>
+
+                <nav class="hidden lg:flex items-center gap-8 text-[11px] uppercase tracking-[0.26em] font-medium text-white/80">
+                    <a href="#galeria" class="hover:text-wood-300 transition">Galeria</a>
+                    <a href="#mural" class="hover:text-wood-300 transition flex items-center gap-1.5">
+                        <span class="w-1.5 h-1.5 rounded-full bg-wood-400 animate-ping"></span>
+                        <span>Mural Ao Vivo</span>
+                    </a>
+                    <a href="#presentes" class="hover:text-wood-300 transition">Presentes</a>
+                    <a href="#rsvp" class="hover:text-wood-300 transition">RSVP</a>
+                </nav>
+
+                <button id="mobile-menu-btn" aria-label="Abrir Menu" class="lg:hidden p-2.5 rounded-xl text-white/90 hover:bg-white/10 transition">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Menu Mobile -->
+            <div id="mobile-menu" class="hidden lg:hidden bg-navy-950/95 backdrop-blur-xl border-y border-white/10 px-6 py-6 space-y-4 text-center">
+                <a href="#inicio" class="mobile-link block py-1.5 text-xs uppercase tracking-[0.25em] text-white/90">Início</a>
+                <a href="#historia" class="mobile-link block py-1.5 text-xs uppercase tracking-[0.25em] text-white/90">Nossa História</a>
+                <a href="#local" class="mobile-link block py-1.5 text-xs uppercase tracking-[0.25em] text-white/90">O Local • Villa Rio</a>
+                <a href="#galeria" class="mobile-link block py-1.5 text-xs uppercase tracking-[0.25em] text-white/90">Galeria</a>
+                <a href="#mural" class="mobile-link block py-1.5 text-xs uppercase tracking-[0.25em] text-wood-300">Mural Ao Vivo</a>
+                <a href="#presentes" class="mobile-link block py-1.5 text-xs uppercase tracking-[0.25em] text-white/90">Presentes</a>
+                <a href="#rsvp" class="mobile-link block py-2 text-xs uppercase tracking-[0.25em] text-serene-300 font-bold">Confirmar Presença (RSVP)</a>
+            </div>
+        </header>
+
+        <!-- Bloco Central Editorial -->
+        <div class="relative z-20 flex-1 flex flex-col items-center justify-center text-center px-4 py-10">
+            <span class="text-[11px] sm:text-xs uppercase tracking-[0.38em] text-wood-300 font-semibold mb-4">
+                O Casamento de
+            </span>
+
+            <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl font-normal tracking-[0.06em] uppercase text-white leading-none drop-shadow-lg">
+                IVAN <span class="italic font-normal text-wood-400 lowercase mx-1 sm:mx-2">&amp;</span> EMMYLLE
+            </h1>
+
+            <p class="font-serif text-xl sm:text-2xl tracking-[0.28em] text-white/90 mt-5">
+                (20.11.2027)
+            </p>
+
+            <p class="text-[11px] sm:text-xs uppercase tracking-[0.24em] text-serene-300 mt-3">
+                16h00 • Villa Rio • Maria Farinha, PE
+            </p>
+
+            <div class="mt-9 flex flex-wrap items-center justify-center gap-3.5">
+                <a href="#rsvp" class="px-8 py-3.5 rounded-full wood-gradient text-white text-xs font-semibold uppercase tracking-[0.22em] hover:brightness-110 transition shadow-xl">
+                    Confirmar Presença
+                </a>
+                <a href="#presentes" class="px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/25 text-white text-xs font-medium uppercase tracking-[0.18em] transition">
+                    Lista de Presentes
+                </a>
+                <button onclick="triggerSlotUpload('hero')" class="dev-only px-6 py-3.5 rounded-full bg-wood-500 hover:bg-wood-400 border border-wood-200 text-white text-xs font-bold uppercase tracking-[0.18em] transition flex items-center gap-2 shadow-xl">
+                    <i class="fa-solid fa-camera"></i>
+                    <span>Trocar Foto de Fundo</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Rodapé da Hero: Contagem Regressiva -->
+        <div class="relative z-20 border-t border-white/15 bg-navy-950/75 backdrop-blur-md">
+            <div class="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-6 sm:gap-8 text-center">
+                    <div>
+                        <span id="cd-days" class="font-serif text-2xl sm:text-3xl text-white font-semibold">000</span>
+                        <span class="block text-[9px] uppercase tracking-[0.25em] text-serene-300">Dias</span>
+                    </div>
+                    <span class="text-wood-400/60">•</span>
+                    <div>
+                        <span id="cd-hours" class="font-serif text-2xl sm:text-3xl text-white font-semibold">00</span>
+                        <span class="block text-[9px] uppercase tracking-[0.25em] text-serene-300">Horas</span>
+                    </div>
+                    <span class="text-wood-400/60">•</span>
+                    <div>
+                        <span id="cd-minutes" class="font-serif text-2xl sm:text-3xl text-white font-semibold">00</span>
+                        <span class="block text-[9px] uppercase tracking-[0.25em] text-serene-300">Min</span>
+                    </div>
+                    <span class="text-wood-400/60">•</span>
+                    <div>
+                        <span id="cd-seconds" class="font-serif text-2xl sm:text-3xl text-wood-300 font-semibold">00</span>
+                        <span class="block text-[9px] uppercase tracking-[0.25em] text-serene-300">Seg</span>
+                    </div>
+                </div>
+
+                <button onclick="downloadICS()" class="px-4 py-2 rounded-full border border-wood-400/50 hover:bg-wood-500/20 text-[11px] uppercase tracking-[0.2em] text-wood-200 transition flex items-center gap-2">
+                    <i class="fa-regular fa-calendar-plus"></i>
+                    <span>Salvar na Agenda</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 2. NOSSA HISTÓRIA + ÁLBUM DO CASAL         -->
+    <!-- ========================================== -->
+    <section id="historia" class="py-24 sm:py-32 px-4 bg-ivory">
+        <div class="max-w-6xl mx-auto">
+            <div class="max-w-3xl mb-16">
+                <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-wood-500 block mb-3">01 • Nossa Jornada</span>
+                <h2 class="font-serif text-4xl sm:text-6xl text-navy-900 font-normal leading-tight">
+                    De uma conversa despretensiosa a uma <span class="italic text-serene-500">vida inteira pela frente.</span>
+                </h2>
+                <div class="w-20 h-[2px] bg-wood-400 mt-6"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                <!-- Coluna de Fotos do Casal -->
+                <div class="lg:col-span-5 space-y-5 lg:sticky lg:top-12">
+                    <div class="group relative rounded-2xl overflow-hidden shadow-2xl border border-serene-200 bg-navy-900 aspect-[4/5]">
+                        <img id="slot-img-storyMain" src="" alt="Ivan e Emmylle ao pôr do sol na praia" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <button onclick="triggerSlotUpload('storyMain')" class="dev-only absolute top-3 right-3 px-3 py-1.5 rounded-full bg-wood-600 hover:bg-wood-500 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 border border-white/25 shadow-lg">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Trocar Foto</span>
+                        </button>
+                        <div class="absolute inset-x-0 bottom-0 p-5 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-transparent text-white">
+                            <span class="text-[10px] uppercase tracking-[0.25em] text-wood-300 block">Onde tudo começou &amp; o pedido</span>
+                            <p class="font-serif italic text-lg mt-0.5">Sob o mesmo pôr do sol na praia</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="group relative rounded-2xl overflow-hidden shadow-md border border-serene-200 aspect-square bg-navy-900">
+                            <img id="slot-img-storySub1" src="" alt="Ivan e Emmylle" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <button onclick="triggerSlotUpload('storySub1')" class="dev-only absolute bottom-2 right-2 px-2.5 py-1 rounded-full bg-wood-600 text-white text-[10px] font-bold flex items-center gap-1 shadow">
+                                <i class="fa-solid fa-camera"></i> Trocar
+                            </button>
+                        </div>
+                        <div class="group relative rounded-2xl overflow-hidden shadow-md border border-serene-200 aspect-square bg-navy-900">
+                            <img id="slot-img-storySub2" src="" alt="Brinde do casal" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                            <button onclick="triggerSlotUpload('storySub2')" class="dev-only absolute bottom-2 right-2 px-2.5 py-1 rounded-full bg-wood-600 text-white text-[10px] font-bold flex items-center gap-1 shadow">
+                                <i class="fa-solid fa-camera"></i> Trocar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Marcos da História -->
+                    <div class="p-6 rounded-2xl bg-white border border-serene-200 shadow-sm space-y-3">
+                        <div class="flex items-center justify-between text-xs border-b border-serene-100 pb-2.5">
+                            <span class="font-bold text-navy-900">2021 • O Início</span>
+                            <span class="text-slate-600">Status no WhatsApp &amp; Pôr do sol</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs border-b border-serene-100 pb-2.5">
+                            <span class="font-bold text-navy-900">Jogos Internos</span>
+                            <span class="text-slate-600">Pedido no Shopping Boa Vista</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs border-b border-serene-100 pb-2.5">
+                            <span class="font-bold text-navy-900">Nosso Apê</span>
+                            <span class="text-slate-600">As chaves da nossa virada de chave</span>
+                        </div>
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="font-bold text-wood-500">20.11.2027</span>
+                            <span class="text-navy-900 font-semibold">O “Sim” de frente para o rio</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Texto Completo Aprovado -->
+                <div class="lg:col-span-7 space-y-6 text-slate-700 text-base sm:text-[17px] leading-[1.9]">
+                    <p class="first-letter:font-serif first-letter:text-6xl first-letter:font-normal first-letter:text-navy-900 first-letter:mr-3 first-letter:float-left">
+                        Tudo começou em 2021, em meio à pandemia, quando o mundo parecia estar de cabeça para baixo. Ainda no ensino médio, nos conhecemos pela internet por meio de amigos em comum. Foi Emmylle quem deu o primeiro passo, respondendo a um status no WhatsApp. Uma mensagem despretensiosa que virou madrugadas de conversa — e o início de uma história que nenhum dos dois imaginava viver.
+                    </p>
+
+                    <p>
+                        Quando finalmente marcamos nosso primeiro encontro, nada saiu como o planejado. O Museu na Caixa estava fechado; o passeio de barco foi cancelado pela chuva. No fim, o destino reservou algo muito mais simples e perfeito: nos encontramos na praia, ao pôr do sol. Dois jovens ainda tímidos, descobrindo aos poucos a companhia um do outro. Mesmo com todos os planos dando errado, aquele foi o começo de tudo. Ainda bem.
+                    </p>
+
+                    <p>
+                        Pouco tempo depois, durante os jogos internos, veio o pedido de namoro. Sem grandes produções ou condições para algo elaborado na época, o cenário escolhido foi a praça de alimentação do Shopping Boa Vista. A surpresa foi tão grande que Emmylle precisou perguntar várias vezes se era sério mesmo. Ali, entre o barulho da praça e a certeza do que sentíamos, começava oficialmente a nossa história.
+                    </p>
+
+                    <p>
+                        Os anos passaram e trouxeram sonhos, desafios e conquistas — e nenhuma marcou tanto quanto a compra do nosso primeiro apartamento. Mais do que chaves na mão, foi uma verdadeira virada de chave: a liberdade misturada ao frio na barriga das novas responsabilidades. Amadurecemos juntos e descobrimos que, lado a lado, somos capazes de ir muito mais longe.
+                    </p>
+
+                    <p class="font-serif italic text-2xl sm:text-3xl text-navy-900 pt-2">
+                        Até que chegou a hora da pergunta mais importante.
+                    </p>
+
+                    <p>
+                        Ansioso só de imaginar como tudo aconteceria, Ivan preparou o pedido de casamento em meio a uma verdadeira aventura: alianças que demoraram a chegar, planos refeitos e o coração acelerado entre a expectativa e o frio na barriga. Mas, no fim, tudo se encaixou.
+                    </p>
+
+                    <p>
+                        E não poderia ser em outro lugar: o pedido aconteceu na mesma praia e sob o mesmo pôr do sol do primeiro encontro. O cenário era o mesmo, mas já não éramos dois adolescentes tímidos tentando adivinhar o futuro — éramos duas pessoas que já tinham construído uma história, vencido desafios e escolhido caminhar juntas.
+                    </p>
+
+                    <p>
+                        Hoje, seguimos levando a vida com leveza, rindo das improváveis voltas do caminho e fazendo planos sem medo.
+                    </p>
+
+                    <div class="mt-10 p-7 sm:p-9 rounded-2xl bg-navy-800 text-white border-l-4 border-wood-400 shadow-xl">
+                        <p class="font-serif italic text-2xl sm:text-3xl text-white leading-relaxed">
+                            “Se uma resposta a um status começou tudo isso e um pôr do sol na praia selou o nosso ‘sim’, é de frente para o rio, sob um novo entardecer, que começa o melhor capítulo das nossas vidas.”
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 3. O LOCAL • VILLA RIO (MARIA FARINHA)     -->
+    <!-- ========================================== -->
+    <section id="local" class="py-24 sm:py-32 px-4 bg-navy-900 text-white relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-wood-300 block mb-3">02 • O Cenário</span>
+                    <h2 class="font-serif text-4xl sm:text-6xl font-normal text-white">Villa Rio <span class="italic text-serene-300">• Maria Farinha</span></h2>
+                </div>
+                <p class="text-serene-200 text-sm sm:text-base max-w-md">
+                    De frente para o rio, com a brisa do fim de tarde e a arquitetura acolhedora em madeira iluminada à noite. Tudo no mesmo lugar.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Card 1: Cerimônia às 16h00 -->
+                <div class="bg-navy-950/90 border border-white/10 rounded-3xl overflow-hidden flex flex-col">
+                    <div class="group relative h-72 sm:h-80 bg-navy-800 overflow-hidden">
+                        <img id="slot-img-venueCeremony" src="" alt="Altar de frente para o rio no Villa Rio" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <button onclick="triggerSlotUpload('venueCeremony')" class="dev-only absolute top-3 right-3 px-3 py-1.5 rounded-full bg-wood-600 hover:bg-wood-500 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 border border-white/25 shadow-lg">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Trocar Foto</span>
+                        </button>
+                    </div>
+                    <div class="p-7 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="px-3.5 py-1 rounded-full bg-serene-400/20 text-serene-300 text-xs font-bold uppercase tracking-wider">16h00 • Ao Pôr do Sol</span>
+                                <span class="text-xs text-wood-300 font-medium">Chegada às 15h30</span>
+                            </div>
+                            <h3 class="font-serif text-3xl text-white">A Cerimônia à Beira do Rio</h3>
+                            <p class="text-sm text-serene-200/90 leading-relaxed mt-2">
+                                No gramado de frente para as águas calmas de Maria Farinha, diremos o nosso “sim” enquanto o sol se põe no horizonte.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Recepção às 17h30 -->
+                <div class="bg-navy-950/90 border border-white/10 rounded-3xl overflow-hidden flex flex-col">
+                    <div class="group relative h-72 sm:h-80 bg-navy-800 overflow-hidden">
+                        <img id="slot-img-venueReception" src="" alt="Chalé de madeira iluminado à noite no Villa Rio" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                        <button onclick="triggerSlotUpload('venueReception')" class="dev-only absolute top-3 right-3 px-3 py-1.5 rounded-full bg-wood-600 hover:bg-wood-500 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1.5 border border-white/25 shadow-lg">
+                            <i class="fa-solid fa-camera"></i>
+                            <span>Trocar Foto</span>
+                        </button>
+                    </div>
+                    <div class="p-7 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-3">
+                                <span class="px-3.5 py-1 rounded-full wood-gradient text-white text-xs font-bold uppercase tracking-wider">17h30 • Festa &amp; Brinde</span>
+                                <span class="text-xs text-serene-300 font-medium">Mesmo Local</span>
+                            </div>
+                            <h3 class="font-serif text-3xl text-white">Recepção Sob as Luzes</h3>
+                            <p class="text-sm text-serene-200/90 leading-relaxed mt-2">
+                                Logo após a cerimônia, celebraremos ao redor do chalé de madeira iluminado, sob luzes quentes e muita música boa.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Barra de Endereço, Rotas e Dress Code -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-7 bg-white text-navy-900 rounded-3xl p-7 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[11px] font-bold uppercase tracking-[0.25em] text-wood-500">Como Chegar</span>
+                        <h3 class="font-serif text-3xl text-navy-900 mt-1">R. Anísio Carneiro Leão, 118</h3>
+                        <p class="text-slate-600 text-sm mt-1">Maria Farinha, Paulista - PE • CEP 53427-290</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6">
+                        <a href="https://www.google.com/maps/search/?api=1&query=R.+An%C3%ADsio+Carneiro+Le%C3%A3o,+118+-+Maria+Farinha,+Paulista+-+PE,+53427-290" target="_blank" rel="noopener noreferrer" class="px-4 py-3.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-location-dot text-wood-300"></i>
+                            <span>Google Maps</span>
+                        </a>
+                        <a href="https://waze.com/ul?q=R.%20An%C3%ADsio%20Carneiro%20Le%C3%A3o%2C%20118%20-%20Maria%20Farinha%2C%20Paulista%20-%20PE%2C%2053427-290&navigate=yes" target="_blank" rel="noopener noreferrer" class="px-4 py-3.5 rounded-xl bg-serene-100 hover:bg-serene-200 text-navy-900 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition">
+                            <i class="fa-brands fa-waze text-navy-800 text-base"></i>
+                            <span>Waze</span>
+                        </a>
+                        <button onclick="copyText('R. Anísio Carneiro Leão, 118 - Maria Farinha, Paulista - PE, 53427-290', 'Endereço copiado!')" class="px-4 py-3.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-navy-900 font-semibold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition">
+                            <i class="fa-regular fa-copy"></i>
+                            <span>Copiar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 bg-navy-950 border border-wood-400/40 rounded-3xl p-7 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <span class="text-[11px] font-bold uppercase tracking-[0.25em] text-wood-300">Traje / Dress Code</span>
+                            <span class="text-xs text-serene-300 font-semibold">Esporte Fino</span>
+                        </div>
+                        <h3 class="font-serif text-2xl sm:text-3xl text-white">Elegância Leve ao Ar Livre</h3>
+                        <p class="text-xs sm:text-sm text-serene-200 leading-relaxed mt-2">
+                            Como a cerimônia será no gramado à beira do rio, recomendamos tecidos fluidos e saltos blocados ou rasteiras sofisticadas.
+                        </p>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-white/10 text-xs text-serene-200">
+                        <strong class="text-wood-300">Cores reservadas:</strong> Evitem <strong>branco/off-white</strong> (noiva) e tons de <strong>azul marinho / azul serene</strong> (madrinhas e padrinhos).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 4. GALERIA EDITORIAL DE MEMÓRIAS           -->
+    <!-- ========================================== -->
+    <section id="galeria" class="py-24 sm:py-32 px-4 bg-serene-50 border-b border-serene-200">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+                <div>
+                    <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-wood-500">03 • Nossas Memórias</span>
+                    <h2 class="font-serif text-4xl sm:text-6xl font-normal text-navy-900 mt-2">Galeria do Casal &amp; Local</h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2">
+                        Toque em qualquer fotografia para ampliar em tela cheia.
+                    </p>
+                </div>
+
+                <div class="dev-only">
+                    <label for="bulk-gallery-upload" class="cursor-pointer inline-flex items-center gap-2.5 px-5 py-3.5 rounded-2xl bg-wood-600 hover:bg-wood-500 text-white text-xs font-bold uppercase tracking-wider shadow-lg transition">
+                        <i class="fa-solid fa-images"></i>
+                        <span>Adicionar Fotos à Galeria</span>
+                    </label>
+                    <input type="file" id="bulk-gallery-upload" accept="image/*" multiple class="sr-only" onchange="handleBulkGalleryUpload(event)">
+                </div>
+            </div>
+
+            <div id="couple-gallery-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"></div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 5. MURAL AO VIVO • INSTAWEDDING            -->
+    <!-- ========================================== -->
+    <section id="mural" class="py-24 sm:py-32 px-4 bg-ivory">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-wood-100 border border-wood-300 text-wood-600 text-[11px] font-bold uppercase tracking-widest mb-3">
+                        <span class="w-2 h-2 rounded-full bg-wood-500 animate-ping"></span>
+                        <span>04 • Rede Social do Casamento</span>
+                    </div>
+                    <h2 class="font-serif text-4xl sm:text-5xl font-normal text-navy-900">Mural Ao Vivo <span class="italic text-wood-500">• InstaWedding</span></h2>
+                    <p class="text-slate-600 text-sm sm:text-base mt-2 max-w-xl">
+                        Tirou uma foto especial durante a cerimônia ou na pista? Poste aqui na hora! Todas as fotos aparecem no feed e podem ir direto para o <strong>Telão da Festa</strong>.
+                    </p>
+                </div>
+
+                <button onclick="openSlideshowModal()" class="self-start md:self-auto px-5 py-3.5 rounded-2xl bg-navy-800 hover:bg-navy-700 text-white text-xs font-bold uppercase tracking-widest shadow-lg flex items-center gap-2.5 transition shrink-0">
+                    <i class="fa-solid fa-tv text-wood-300"></i>
+                    <span>Modo Telão (Slideshow ao Vivo)</span>
+                </button>
+            </div>
+
+            <!-- Composer: Nova Publicação -->
+            <div class="bg-white rounded-3xl p-5 sm:p-7 border border-serene-200 shadow-lg mb-10">
+                <form id="social-post-form" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+                        <div class="md:col-span-5">
+                            <label for="social-photo-input" class="cursor-pointer block relative rounded-2xl border-2 border-dashed border-serene-300 hover:border-wood-400 bg-serene-50/70 transition overflow-hidden aspect-[4/3] flex flex-col items-center justify-center p-4 text-center">
+                                <div id="photo-upload-placeholder" class="space-y-2">
+                                    <div class="w-12 h-12 rounded-full bg-white text-navy-900 shadow-sm flex items-center justify-center mx-auto">
+                                        <i class="fa-solid fa-camera-retro text-lg text-wood-500"></i>
+                                    </div>
+                                    <span class="block text-xs font-bold text-navy-900">Tirar Foto ou Escolher Imagem</span>
+                                    <span class="block text-[11px] text-slate-500">Toque para abrir a câmera ou galeria</span>
+                                </div>
+                                <img id="photo-upload-preview" src="" alt="Prévia da foto" class="hidden absolute inset-0 w-full h-full object-cover">
+                            </label>
+                            <input type="file" id="social-photo-input" accept="image/*" class="sr-only" onchange="handleSocialPhotoSelect(event)">
+                        </div>
+
+                        <div class="md:col-span-7 space-y-3.5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold uppercase tracking-wider text-navy-900 mb-1">Seu Nome *</label>
+                                    <input type="text" id="social-author" required placeholder="Ex: Lucas & Fernanda" class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 bg-serene-50/40 focus:bg-white focus:border-navy-800 outline-none text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold uppercase tracking-wider text-navy-900 mb-1">Momento</label>
+                                    <select id="social-tag" class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 bg-serene-50/40 focus:bg-white focus:border-navy-800 outline-none text-sm">
+                                        <option value="Cerimônia">#Cerimônia</option>
+                                        <option value="Pôr do Sol no Rio">#PôrDoSolNoRio</option>
+                                        <option value="Festa">#Festa</option>
+                                        <option value="Bastidores">#Bastidores</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold uppercase tracking-wider text-navy-900 mb-1">Legenda ou Bênção para Ivan &amp; Emmylle *</label>
+                                <textarea id="social-caption" rows="3" required placeholder="Compartilhe o que você está vivendo nesse momento..." class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 bg-serene-50/40 focus:bg-white focus:border-navy-800 outline-none text-sm resize-none"></textarea>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-1">
+                                <button type="button" id="clear-photo-btn" onclick="clearSelectedPhoto()" class="hidden text-xs text-rose-600 hover:underline">
+                                    Remover foto
+                                </button>
+                                <button type="submit" class="ml-auto px-6 py-3 rounded-xl wood-gradient text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 transition flex items-center gap-2">
+                                    <i class="fa-solid fa-paper-plane"></i>
+                                    <span>Publicar no Mural</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Filtros -->
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-6">
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterSocialPosts('all', this)" class="social-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-navy-800 text-white transition">Todas</button>
+                    <button onclick="filterSocialPosts('Cerimônia', this)" class="social-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white border border-serene-200 text-navy-900 hover:bg-serene-50 transition">#Cerimônia</button>
+                    <button onclick="filterSocialPosts('Pôr do Sol no Rio', this)" class="social-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white border border-serene-200 text-navy-900 hover:bg-serene-50 transition">#PôrDoSolNoRio</button>
+                    <button onclick="filterSocialPosts('Festa', this)" class="social-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white border border-serene-200 text-navy-900 hover:bg-serene-50 transition">#Festa</button>
+                    <button onclick="filterSocialPosts('Bastidores', this)" class="social-filter-btn px-4 py-2 rounded-full text-xs font-bold bg-white border border-serene-200 text-navy-900 hover:bg-serene-50 transition">#Bastidores</button>
+                </div>
+                <span id="social-posts-counter" class="text-xs font-medium text-slate-500">0 publicações</span>
+            </div>
+
+            <!-- Feed Grid -->
+            <div id="social-feed-grid" class="grid grid-cols-1 md:grid-cols-2 gap-7"></div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 6. LISTA DE PRESENTES (PIX OFICIAL + INFINITEPAY) -->
+    <!-- ========================================== -->
+    <section id="presentes" class="py-24 sm:py-32 px-4 bg-serene-50 border-y border-serene-200">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-wood-500">05 • Lista de Presentes</span>
+                <h2 class="font-serif text-4xl sm:text-5xl font-normal text-navy-900 mt-2">Cotas de Carinho &amp; Bom Humor</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-3">
+                    Sua presença à beira do rio já é o nosso maior presente! Caso queira nos abençoar na lua de mel ou na vida nova no apê, escolha uma cota abaixo para presentear via <strong>Pix (com valor já preenchido no QR Code)</strong> ou <strong>Cartão de Crédito em até 12x pela InfinitePay</strong>.
+                </p>
+
+                <!-- Cartão Rápido de Pix Oficial -->
+                <div class="mt-6 max-w-xl mx-auto bg-white rounded-2xl p-4 sm:px-6 border border-serene-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <div class="flex items-center gap-3 text-left">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center shrink-0">
+                            <i class="fa-brands fa-pix text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400 block">Chave Pix Oficial (E-mail)</span>
+                            <code id="banner-pix-key" class="text-xs sm:text-sm font-mono font-bold text-navy-900">ivanitalo.procopio@gmail.com</code>
+                        </div>
+                    </div>
+                    <button onclick="copyPixKey()" class="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-navy-800 hover:bg-navy-700 text-white text-xs font-bold uppercase tracking-wider transition flex items-center justify-center gap-2 shrink-0">
+                        <i class="fa-regular fa-copy"></i>
+                        <span>Copiar Chave</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- METAS COLETIVAS EM DESTAQUE COM BARRA DE PROGRESSO -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                <!-- Meta 1: Lua de Mel -->
+                <div class="bg-navy-900 text-white rounded-3xl p-6 sm:p-8 border border-wood-400/40 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-3 py-1 rounded-full wood-gradient text-white text-[10px] font-bold uppercase tracking-widest">Meta Coletiva • 01</span>
+                            <span id="goal-honeymoon-pct" class="text-xs font-bold text-wood-300">35% alcançado</span>
+                        </div>
+                        <h3 class="font-serif text-3xl text-white">Nossa Lua de Mel dos Sonhos</h3>
+                        <p class="text-xs sm:text-sm text-serene-200 mt-1.5">
+                            Contribua com uma cota para os passeios, jantares e dias de descanso pós-casamento.
+                        </p>
+                        <div class="mt-5">
+                            <div class="flex justify-between text-xs mb-1.5">
+                                <span class="text-serene-300">Arrecadado: <strong id="goal-honeymoon-raised" class="text-white">R$ 1.400,00</strong></span>
+                                <span class="text-serene-300">Meta: <strong>R$ 4.000,00</strong></span>
+                            </div>
+                            <div class="w-full h-2.5 rounded-full bg-navy-950 overflow-hidden border border-white/10">
+                                <div id="goal-honeymoon-bar" class="h-full wood-gradient rounded-full transition-all duration-700" style="width: 35%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-2.5">
+                        <button onclick="openGiftModal('goal-honeymoon')" class="flex-1 py-3 px-4 rounded-xl wood-gradient text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 transition">
+                            Contribuir (Cota R$ 150)
+                        </button>
+                        <button onclick="openGiftModal(13)" class="py-3 px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition">
+                            Outro Valor
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Meta 2: Mobiliando o Primeiro Apê -->
+                <div class="bg-white text-navy-900 rounded-3xl p-6 sm:p-8 border border-serene-200 shadow-xl flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="px-3 py-1 rounded-full bg-navy-800 text-serene-200 text-[10px] font-bold uppercase tracking-widest">Meta Coletiva • 02</span>
+                            <span id="goal-home-pct" class="text-xs font-bold text-wood-500">42% alcançado</span>
+                        </div>
+                        <h3 class="font-serif text-3xl text-navy-900">Mobiliando Nosso Primeiro Apê</h3>
+                        <p class="text-xs sm:text-sm text-slate-600 mt-1.5">
+                            Para deixar cada cantinho do nosso apartamento pronto e com a nossa cara.
+                        </p>
+                        <div class="mt-5">
+                            <div class="flex justify-between text-xs mb-1.5">
+                                <span class="text-slate-500">Arrecadado: <strong id="goal-home-raised" class="text-navy-900">R$ 2.100,00</strong></span>
+                                <span class="text-slate-500">Meta: <strong>R$ 5.000,00</strong></span>
+                            </div>
+                            <div class="w-full h-2.5 rounded-full bg-serene-100 overflow-hidden">
+                                <div id="goal-home-bar" class="h-full bg-navy-800 rounded-full transition-all duration-700" style="width: 42%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex flex-wrap gap-2.5">
+                        <button onclick="openGiftModal('goal-home')" class="flex-1 py-3 px-4 rounded-xl bg-navy-800 hover:bg-navy-700 text-white font-bold text-xs uppercase tracking-wider transition">
+                            Contribuir (Cota R$ 200)
+                        </button>
+                        <button onclick="openGiftModal(13)" class="py-3 px-4 rounded-xl bg-serene-100 hover:bg-serene-200 text-navy-900 font-semibold text-xs uppercase tracking-wider transition">
+                            Outro Valor
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FILTROS POR FAIXA DE VALOR & ORDENAÇÃO -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+                <div class="inline-flex flex-wrap justify-center gap-2 p-1.5 rounded-full bg-white border border-serene-200 shadow-sm">
+                    <button onclick="filterGifts('all', this)" class="gift-filter px-4 py-1.5 rounded-full text-xs font-bold bg-navy-800 text-white transition">Todos (13)</button>
+                    <button onclick="filterGifts('up100', this)" class="gift-filter px-4 py-1.5 rounded-full text-xs font-bold text-navy-900 hover:bg-serene-50 transition">Até R$ 100</button>
+                    <button onclick="filterGifts('130to300', this)" class="gift-filter px-4 py-1.5 rounded-full text-xs font-bold text-navy-900 hover:bg-serene-50 transition">R$ 130 a R$ 300</button>
+                    <button onclick="filterGifts('master', this)" class="gift-filter px-4 py-1.5 rounded-full text-xs font-bold text-navy-900 hover:bg-serene-50 transition">Cotas Master</button>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <label for="gift-sort-select" class="text-xs font-semibold text-slate-500">Ordenar:</label>
+                    <select id="gift-sort-select" onchange="renderGifts(currentGiftFilter)" class="px-3.5 py-2 rounded-full bg-white border border-serene-200 text-xs font-bold text-navy-900 outline-none focus:border-navy-800">
+                        <option value="featured">Destaques</option>
+                        <option value="asc">Menor Preço</option>
+                        <option value="desc">Maior Preço</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Grid dos 13 Presentes -->
+            <div id="gifts-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- 7. RSVP MODERNO + PASSE VIP DIGITAL        -->
+    <!-- ========================================== -->
+    <section id="rsvp" class="py-24 sm:py-32 px-4 bg-ivory">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-12">
+                <span class="text-[11px] font-bold uppercase tracking-[0.3em] text-wood-500">06 • Confirmação de Presença</span>
+                <h2 class="font-serif text-4xl sm:text-5xl font-normal text-navy-900 mt-2">Confirme sua Presença</h2>
+                <p class="text-slate-600 text-sm sm:text-base mt-3">
+                    Preencha seus dados abaixo para gerar seu <strong>Passe VIP Digital com QR Code</strong> exclusivo para o dia 20 de novembro.
+                </p>
+            </div>
+
+            <div id="rsvp-form-card" class="bg-white rounded-3xl shadow-2xl border border-serene-200 overflow-hidden">
+                <div class="bg-navy-800 px-6 sm:px-10 py-4 text-white flex items-center justify-between border-b-2 border-wood-400">
+                    <span class="text-xs uppercase tracking-[0.22em] font-semibold">Concierge • Ivan &amp; Emmylle</span>
+                    <span class="text-xs text-serene-300">Confirmar até 20/10/2027</span>
+                </div>
+
+                <form id="rsvp-form" class="p-6 sm:p-10 space-y-6">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-3">Você poderá celebrar conosco?</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="attending" value="sim" checked class="peer sr-only" onchange="toggleAttendingFields()">
+                                <div class="p-4 rounded-2xl border-2 border-serene-200 peer-checked:border-navy-800 peer-checked:bg-serene-50 transition flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-navy-800 text-wood-300 flex items-center justify-center shrink-0">
+                                        <i class="fa-solid fa-champagne-glasses"></i>
+                                    </div>
+                                    <div>
+                                        <span class="block font-bold text-navy-900 text-sm">Com certeza estarei lá!</span>
+                                        <span class="block text-xs text-slate-500">Gerar meu Passe VIP Digital</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="cursor-pointer">
+                                <input type="radio" name="attending" value="nao" class="peer sr-only" onchange="toggleAttendingFields()">
+                                <div class="p-4 rounded-2xl border-2 border-serene-200 peer-checked:border-wood-500 peer-checked:bg-wood-100/50 transition flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-wood-200 text-wood-600 flex items-center justify-center shrink-0">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </div>
+                                    <div>
+                                        <span class="block font-bold text-navy-900 text-sm">Infelizmente não poderei ir</span>
+                                        <span class="block text-xs text-slate-500">Deixar carinho aos noivos</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div>
+                            <label for="guest-name" class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">Seu Nome Completo *</label>
+                            <input type="text" id="guest-name" required placeholder="Ex: Mariana Albuquerque" class="w-full px-4 py-3.5 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-sm">
+                        </div>
+                        <div>
+                            <label for="guest-phone" class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">WhatsApp (com DDD) *</label>
+                            <input type="tel" id="guest-phone" required placeholder="(81) 99999-9999" class="w-full px-4 py-3.5 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-sm">
+                        </div>
+                    </div>
+
+                    <div id="attending-details" class="space-y-6 pt-2 border-t border-serene-100">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="adults-count" class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">Adultos (incluindo você)</label>
+                                <select id="adults-count" onchange="renderCompanionInputs()" class="w-full px-4 py-3.5 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-sm bg-white">
+                                    <option value="1">1 Adulto (Apenas eu)</option>
+                                    <option value="2">2 Adultos (Eu + 1 acompanhante)</option>
+                                    <option value="3">3 Adultos (Eu + 2 acompanhantes)</option>
+                                    <option value="4">4 Adultos (Eu + 3 acompanhantes)</option>
+                                    <option value="5">5 Adultos (Eu + 4 acompanhantes)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="kids-count" class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">Crianças (até 10 anos)</label>
+                                <select id="kids-count" onchange="renderCompanionInputs()" class="w-full px-4 py-3.5 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-sm bg-white">
+                                    <option value="0">Nenhuma criança</option>
+                                    <option value="1">1 Criança</option>
+                                    <option value="2">2 Crianças</option>
+                                    <option value="3">3 Crianças</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="companions-wrapper" class="hidden space-y-3 bg-serene-50 p-4 rounded-2xl border border-serene-200">
+                            <span class="block text-xs font-bold uppercase tracking-wider text-navy-900">Nome completo dos acompanhantes:</span>
+                            <div id="companions-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                            <div>
+                                <label for="dietary-notes" class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">Restrições alimentares (Opcional)</label>
+                                <input type="text" id="dietary-notes" placeholder="Ex: Vegetariano, alergia, nenhuma..." class="w-full px-4 py-3.5 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-sm">
+                            </div>
+                            <div>
+                                <label for="song-request" class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">Música que não pode faltar na festa</label>
+                                <input type="text" id="song-request" placeholder="Ex: Evidências, Coldplay, Alceu..." class="w-full px-4 py-3.5 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-sm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="guest-message" class="block text-xs font-bold uppercase tracking-wider text-navy-900 mb-2">Mensagem para Ivan &amp; Emmylle</label>
+                        <textarea id="guest-message" rows="2" placeholder="Deixe seus votos de felicidade para os noivos..." class="w-full px-4 py-3 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-sm resize-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-2xl wood-gradient text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 transition flex items-center justify-center gap-3 shadow-lg">
+                        <i class="fa-solid fa-qrcode text-base"></i>
+                        <span>Confirmar Presença e Gerar Passe VIP</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- PASSE VIP DIGITAL GERADO -->
+            <div id="vip-pass-result" class="hidden mt-8">
+                <div class="bg-navy-900 p-6 sm:p-10 rounded-3xl shadow-2xl text-center border border-wood-400/40">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-200 text-xs font-semibold mb-4">
+                        <i class="fa-solid fa-circle-check"></i>
+                        <span>Presença Confirmada com Sucesso!</span>
+                    </div>
+                    <h3 class="font-serif text-3xl sm:text-4xl text-white mb-2">Seu Passe VIP Digital</h3>
+                    <p class="text-serene-200 text-sm mb-8">Baixe seu convite VIP em imagem ou envie uma cópia pelo WhatsApp para guardar com você.</p>
+
+                    <div class="vip-ticket max-w-md mx-auto rounded-3xl overflow-hidden text-left shadow-2xl border-2 border-wood-400">
+                        <div class="bg-navy-950 px-6 py-5 text-white flex items-center justify-between border-b-4 border-wood-400">
+                            <div>
+                                <span class="text-[10px] uppercase tracking-[0.26em] text-serene-300 block">Convite Individual</span>
+                                <span class="font-serif text-2xl font-semibold">Ivan <span class="text-wood-400 italic">&amp;</span> Emmylle</span>
+                            </div>
+                            <span class="px-3 py-1 rounded-full wood-gradient text-white text-xs font-bold tracking-wider">VIP</span>
+                        </div>
+
+                        <div class="p-6 space-y-4">
+                            <div>
+                                <span class="text-[10px] uppercase tracking-widest text-slate-400 block">Convidado(a) Principal</span>
+                                <p id="ticket-name" class="font-serif text-2xl font-bold text-navy-900 leading-tight">Nome do Convidado</p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 pt-1">
+                                <div>
+                                    <span class="text-[10px] uppercase tracking-widest text-slate-400 block">Data &amp; Horário</span>
+                                    <p class="text-sm font-bold text-navy-900">20/11/2027 • 16h00</p>
+                                </div>
+                                <div>
+                                    <span class="text-[10px] uppercase tracking-widest text-slate-400 block">Acesso Liberado</span>
+                                    <p id="ticket-pax" class="text-sm font-bold text-wood-500">1 Adulto</p>
+                                </div>
+                            </div>
+
+                            <div id="ticket-companions-box" class="hidden">
+                                <span class="text-[10px] uppercase tracking-widest text-slate-400 block">Acompanhantes</span>
+                                <p id="ticket-companions" class="text-xs text-slate-700 font-medium"></p>
+                            </div>
+
+                            <div>
+                                <span class="text-[10px] uppercase tracking-widest text-slate-400 block">Local</span>
+                                <p class="text-xs font-semibold text-slate-700">Villa Rio • R. Anísio Carneiro Leão, 118 - Maria Farinha, Paulista - PE</p>
+                            </div>
+
+                            <div class="border-t-2 border-dashed border-serene-200 my-4 pt-5 flex flex-col items-center justify-center">
+                                <div id="vip-qrcode" class="p-3 bg-white rounded-2xl border border-serene-200 shadow-inner"></div>
+                                <span id="ticket-code" class="text-[11px] font-mono text-slate-500 mt-2 tracking-widest font-bold">IE27-VIP</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto">
+                        <button onclick="downloadVIPPassImage()" class="w-full sm:w-auto flex-1 px-5 py-3.5 rounded-2xl bg-white hover:bg-serene-100 text-navy-900 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition">
+                            <i class="fa-solid fa-download text-wood-500"></i>
+                            <span>Baixar Convite VIP</span>
+                        </button>
+                        <a id="whatsapp-share-btn" href="#" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto flex-1 px-5 py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition">
+                            <i class="fa-brands fa-whatsapp text-base"></i>
+                            <span>Enviar no WhatsApp</span>
+                        </a>
+                        <button onclick="resetRSVPForm()" class="w-full sm:w-auto px-4 py-3.5 rounded-2xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs uppercase tracking-wider transition">
+                            Novo
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- RODAPÉ EDITORIAL                            -->
+    <!-- ========================================== -->
+    <footer class="bg-navy-950 text-serene-200 py-16 px-4 border-t border-white/10">
+        <div class="max-w-4xl mx-auto text-center space-y-3">
+            <div class="font-serif text-4xl text-white tracking-wider">
+                I <span class="italic text-wood-400">&amp;</span> E
+            </div>
+            <p class="font-serif text-2xl text-white">Ivan &amp; Emmylle</p>
+            <p class="text-[11px] uppercase tracking-[0.28em] text-serene-300">20 de Novembro de 2027 • 16h00 • Villa Rio, Maria Farinha - PE</p>
+
+            <div class="pt-8">
+                <button onclick="requestDevAccess()" aria-label="Acesso Desenvolvedor" class="text-[10px] tracking-[0.2em] uppercase text-serene-300/35 hover:text-wood-300 transition inline-flex items-center gap-1.5">
+                    <i class="fa-solid fa-lock text-[9px]"></i>
+                    <span id="dev-trigger-label">v2.0 • Dev</span>
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- MODAL SENHA DO MODO DESENVOLVEDOR          -->
+    <!-- ========================================== -->
+    <div id="dev-auth-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-navy-950/90 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl border border-serene-200">
+            <div class="bg-navy-900 px-6 py-4 text-white flex items-center justify-between border-b-2 border-wood-400">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-wood-300"></i>
+                    <h3 class="font-serif text-xl">Modo Desenvolvedor</h3>
+                </div>
+                <button onclick="closeDevAuthModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <form onsubmit="verifyDevPassword(event)" class="p-6 space-y-4">
+                <p class="text-xs text-slate-600 leading-relaxed">
+                    Digite a senha de acesso para liberar a edição de fotos, exclusão de publicações e links InfinitePay.
+                </p>
+                <div>
+                    <label for="dev-password-input" class="block text-[11px] font-bold uppercase tracking-wider text-navy-900 mb-1.5">Senha de Acesso</label>
+                    <input type="password" id="dev-password-input" inputmode="numeric" required placeholder="••••" class="w-full px-4 py-3 rounded-xl border border-serene-200 focus:border-navy-800 outline-none text-center text-lg tracking-[0.4em] font-mono">
+                </div>
+                <button type="submit" class="w-full py-3.5 rounded-xl wood-gradient text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 transition">
+                    Desbloquear Modo Dev
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL CHECKOUT PRESENTES (PIX EMV + INFINITEPAY) -->
+    <!-- ========================================== -->
+    <div id="gift-checkout-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-navy-950/85 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-lg w-full overflow-hidden shadow-2xl border border-serene-200 max-h-[92vh] flex flex-col">
+            <div class="bg-navy-800 px-6 py-5 text-white flex items-center justify-between border-b-2 border-wood-400 shrink-0">
+                <div>
+                    <span class="text-[10px] uppercase tracking-widest text-serene-300 block">Presentear Ivan &amp; Emmylle</span>
+                    <h3 id="gift-modal-title" class="font-serif text-2xl leading-tight mt-0.5">Cota de Carinho</h3>
+                </div>
+                <button onclick="closeGiftModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white shrink-0">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Barra de Valor -->
+            <div class="px-6 py-3.5 bg-serene-50 border-b border-serene-200 flex items-center justify-between gap-3 shrink-0">
+                <span class="text-xs font-bold uppercase tracking-wider text-navy-900">Valor do Mimo:</span>
+                <div id="gift-fixed-price-badge" class="px-4 py-1.5 rounded-full bg-wood-100 border border-wood-300 text-wood-600 font-bold text-base">
+                    R$ 100,00
+                </div>
+                <div id="gift-custom-price-wrapper" class="hidden flex items-center gap-1.5">
+                    <span class="text-sm font-bold text-navy-900">R$</span>
+                    <input type="number" id="gift-custom-amount" min="50" step="10" value="100" oninput="updateCustomGiftAmount()" class="w-28 px-3 py-1.5 rounded-xl border border-serene-300 bg-white text-right font-bold text-navy-900 text-sm outline-none focus:border-navy-800">
+                </div>
+            </div>
+
+            <div class="p-6 overflow-y-auto space-y-5">
+                <!-- Passo 1: Identificação e Recado -->
+                <div class="space-y-2.5 bg-ivory p-4 rounded-2xl border border-serene-200">
+                    <span class="block text-[11px] font-bold uppercase tracking-wider text-navy-900">1. Seu Nome e Recado para os Noivos:</span>
+                    <input type="text" id="gift-sender-name" placeholder="Seu nome (Ex: Tia Cláudia & Tio Marcos)" class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 bg-white text-xs outline-none focus:border-navy-800">
+                    <textarea id="gift-note-input" rows="2" placeholder="Escreva um recado divertido ou uma bênção..." class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 bg-white text-xs outline-none focus:border-navy-800 resize-none"></textarea>
+                </div>
+
+                <!-- Passo 2: Abas Pix vs InfinitePay -->
+                <div>
+                    <span class="block text-[11px] font-bold uppercase tracking-wider text-navy-900 mb-2">2. Escolha a Forma de Pagamento:</span>
+                    <div class="grid grid-cols-2 rounded-2xl overflow-hidden border border-serene-200">
+                        <button onclick="switchGiftPaymentTab('pix')" id="gift-tab-pix" class="py-3 text-xs font-bold uppercase tracking-wider bg-navy-800 text-white flex items-center justify-center gap-2 transition">
+                            <i class="fa-brands fa-pix text-emerald-400 text-sm"></i>
+                            <span>Pix Instantâneo</span>
+                        </button>
+                        <button onclick="switchGiftPaymentTab('card')" id="gift-tab-card" class="py-3 text-xs font-bold uppercase tracking-wider bg-serene-50 text-navy-900 hover:bg-serene-100 flex items-center justify-center gap-2 transition">
+                            <i class="fa-regular fa-credit-card text-wood-500 text-sm"></i>
+                            <span>Cartão (InfinitePay)</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- ABA 1: PIX COM PAYLOAD EMV DINÂMICO E COPIA E COLA -->
+                <div id="gift-pane-pix" class="space-y-3.5 text-center">
+                    <p class="text-xs text-slate-600">
+                        QR Code gerado já com o valor exato de <strong id="pix-amount-label" class="text-navy-900">R$ 100,00</strong> para <strong>IVAN ITALO PROCOPIO</strong>:
+                    </p>
+                    <div class="flex justify-center">
+                        <div id="pix-qrcode-box" class="p-3 bg-white rounded-2xl border-2 border-serene-200 shadow-inner"></div>
+                    </div>
+
+                    <!-- Botão Principal: Pix Copia e Cola (Com valor) -->
+                    <button onclick="copyPixEmvPayload()" class="w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-widest transition flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-regular fa-copy text-sm"></i>
+                        <span>Copiar Código Pix Copia e Cola (Com Valor)</span>
+                    </button>
+
+                    <!-- Chave E-mail Direta -->
+                    <div class="bg-serene-50 p-3 rounded-2xl border border-serene-200 text-left">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 block mb-1">Ou use a Chave E-mail Direta:</span>
+                        <div class="flex items-center justify-between gap-2">
+                            <code id="pix-key-display" class="text-xs font-mono font-bold text-navy-900 truncate">ivanitalo.procopio@gmail.com</code>
+                            <button onclick="copyPixKey()" class="px-3 py-1 rounded-lg bg-navy-800 hover:bg-navy-700 text-white text-[11px] font-bold shrink-0 transition">
+                                Copiar E-mail
+                            </button>
+                        </div>
+                    </div>
+
+                    <button onclick="confirmGiftRecord('Pix')" class="w-full py-3 rounded-xl border border-navy-800 text-navy-900 hover:bg-navy-800 hover:text-white text-xs font-bold uppercase tracking-wider transition">
+                        Já fiz o Pix • Registrar meu Recado
+                    </button>
+                </div>
+
+                <!-- ABA 2: CARTÃO DE CRÉDITO INFINITEPAY -->
+                <div id="gift-pane-card" class="hidden space-y-4">
+                    <div class="p-4 rounded-2xl bg-serene-50 border border-serene-200 flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-navy-800 text-wood-300 flex items-center justify-center shrink-0 mt-0.5">
+                            <i class="fa-solid fa-credit-card"></i>
+                        </div>
+                        <div class="text-xs text-slate-600 leading-relaxed">
+                            <strong class="text-navy-900 block text-sm mb-0.5">InfinitePay • Parcelamento em até 12x</strong>
+                            Ambiente oficial e 100% seguro para pagamento com cartão de crédito (Visa, Mastercard, Elo, Amex e Hipercard).
+                        </div>
+                    </div>
+
+                    <a id="card-checkout-btn" href="#" target="_blank" rel="noopener noreferrer" onclick="handleInfinitePayClick(event)" class="w-full py-4 rounded-2xl wood-gradient text-white font-bold text-xs uppercase tracking-widest hover:brightness-110 transition flex items-center justify-center gap-2.5 shadow-lg">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Pagar Agora no Cartão (InfinitePay)</span>
+                    </a>
+                    <p id="card-link-hint" class="text-[11px] text-center text-slate-500">
+                        Ao clicar, seu recado será registrado automaticamente e você seguirá para o checkout seguro da InfinitePay.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL MODO TELÃO (SLIDESHOW AO VIVO)       -->
+    <!-- ========================================== -->
+    <div id="slideshow-modal" class="fixed inset-0 z-50 hidden bg-navy-950 text-white flex-col justify-between p-6 sm:p-10">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="font-serif text-3xl text-white">I <span class="italic text-wood-400">&amp;</span> E</span>
+                <div>
+                    <h3 class="font-serif text-2xl leading-none">Ivan &amp; Emmylle • Ao Vivo</h3>
+                    <span class="text-[11px] uppercase tracking-widest text-wood-300">Poste sua foto no site para aparecer no telão!</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center"><i class="fa-solid fa-chevron-left"></i></button>
+                <button onclick="nextSlide()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center"><i class="fa-solid fa-chevron-right"></i></button>
+                <button onclick="closeSlideshowModal()" class="px-4 py-2 rounded-full bg-rose-600/80 hover:bg-rose-600 text-xs font-bold uppercase tracking-wider">Sair do Telão</button>
+            </div>
+        </div>
+
+        <div class="flex-1 flex items-center justify-center my-6 overflow-hidden">
+            <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-7 flex justify-center">
+                    <img id="slide-image" src="" alt="Foto ao vivo" class="max-h-[65vh] w-auto rounded-2xl border-2 border-wood-400/70 shadow-2xl object-contain">
+                </div>
+                <div class="lg:col-span-5 space-y-4 text-center lg:text-left">
+                    <span id="slide-tag" class="inline-block px-3.5 py-1 rounded-full bg-wood-500 text-white text-xs font-bold uppercase tracking-wider">#Casamento</span>
+                    <p id="slide-caption" class="font-serif italic text-3xl sm:text-4xl text-white leading-snug">"Momento inesquecível!"</p>
+                    <div class="pt-3 border-t border-white/15">
+                        <span class="text-xs uppercase tracking-widest text-serene-300 block">Compartilhado por</span>
+                        <strong id="slide-author" class="font-serif text-2xl text-wood-300">Convidado</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center text-xs text-serene-300/70">
+            <span id="slide-counter">1 / 1</span> • Alternando automaticamente a cada 6 segundos
+        </div>
+    </div>
+
+    <!-- LIGHTBOX VISUALIZADOR DE FOTO -->
+    <div id="lightbox-modal" onclick="closeLightbox()" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-navy-950/92 backdrop-blur-sm">
+        <div onclick="event.stopPropagation()" class="max-w-3xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl">
+            <img id="lightbox-img" src="" alt="Foto ampliada" class="w-full max-h-[72vh] object-contain bg-navy-950">
+            <div class="p-5 flex items-center justify-between gap-4">
+                <div>
+                    <strong id="lightbox-author" class="text-sm font-bold text-navy-900 block"></strong>
+                    <p id="lightbox-caption" class="text-xs text-slate-600 mt-0.5"></p>
+                </div>
+                <button onclick="closeLightbox()" class="px-4 py-2 rounded-xl bg-navy-800 text-white text-xs font-bold">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL ÁREA DOS NOIVOS / DESENVOLVEDOR      -->
+    <!-- ========================================== -->
+    <div id="admin-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-navy-950/90 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl border border-serene-200">
+            <div class="bg-navy-900 px-6 py-5 text-white flex items-center justify-between shrink-0 border-b-2 border-wood-400">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-crown text-wood-300"></i>
+                    <div>
+                        <h3 class="font-serif text-2xl">Painel Desenvolvedor &amp; Noivos</h3>
+                        <p class="text-xs text-serene-300">Convidados, moderação do mural, links InfinitePay e recados de presentes</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminModal()" class="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="flex border-b border-serene-200 bg-serene-50 px-6 gap-5 shrink-0 overflow-x-auto">
+                <button onclick="switchAdminTab('guests')" id="tab-btn-guests" class="admin-tab py-3.5 text-xs font-bold uppercase tracking-wider border-b-2 border-navy-800 text-navy-900">Convidados &amp; DJ</button>
+                <button onclick="switchAdminTab('photos')" id="tab-btn-photos" class="admin-tab py-3.5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-500">Moderar Mural</button>
+                <button onclick="switchAdminTab('gifts')" id="tab-btn-gifts" class="admin-tab py-3.5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-500">Presentes &amp; InfinitePay</button>
+                <button onclick="switchAdminTab('settings')" id="tab-btn-settings" class="admin-tab py-3.5 text-xs font-bold uppercase tracking-wider border-b-2 border-transparent text-slate-500">Configurações Gerais</button>
+            </div>
+
+            <div class="p-6 overflow-y-auto flex-1 space-y-6">
+                <!-- ABA CONVIDADOS -->
+                <div id="admin-tab-guests" class="space-y-5">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <div class="p-4 rounded-2xl bg-serene-50 border border-serene-200">
+                            <span class="text-xs text-slate-500 block">Respostas</span>
+                            <strong id="stat-responses" class="font-serif text-3xl text-navy-900">0</strong>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200">
+                            <span class="text-xs text-emerald-700 block">Adultos</span>
+                            <strong id="stat-adults" class="font-serif text-3xl text-emerald-900">0</strong>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-wood-100 border border-wood-300">
+                            <span class="text-xs text-wood-600 block">Crianças</span>
+                            <strong id="stat-kids" class="font-serif text-3xl text-wood-600">0</strong>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-navy-800 text-white">
+                            <span class="text-xs text-serene-300 block">Total Confirmados</span>
+                            <strong id="stat-total" class="font-serif text-3xl text-wood-300">0</strong>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <input type="text" id="admin-guest-search" oninput="updateAdminDashboard()" placeholder="Buscar convidado ou pedido de música..." class="px-3.5 py-2 rounded-xl border border-serene-200 text-xs outline-none focus:border-navy-800 w-full sm:w-64">
+                        <button onclick="exportGuestsCSV()" class="px-4 py-2 rounded-xl wood-gradient text-white text-xs font-bold flex items-center gap-2">
+                            <i class="fa-solid fa-file-csv"></i>
+                            <span>Exportar Planilha CSV</span>
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto border border-serene-200 rounded-2xl">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-serene-100 text-navy-900 uppercase">
+                                <tr>
+                                    <th class="p-3">Convidado</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Pax</th>
+                                    <th class="p-3">Acompanhantes / Obs / DJ</th>
+                                    <th class="p-3">Ação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-guests-tbody" class="divide-y divide-serene-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- ABA MODERAR MURAL -->
+                <div id="admin-tab-photos" class="hidden space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-sm text-navy-900">Apagar ou Baixar Publicações do Mural Ao Vivo</h4>
+                        <span id="admin-photos-count" class="text-xs text-slate-500">0 fotos</span>
+                    </div>
+                    <div id="admin-photos-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4"></div>
+                </div>
+
+                <!-- ABA PRESENTES & LINKS INFINITEPAY -->
+                <div id="admin-tab-gifts" class="hidden space-y-6">
+                    <div class="p-5 rounded-2xl bg-serene-50 border border-serene-200 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h4 class="font-bold text-sm text-navy-900">Gerenciador de Links InfinitePay</h4>
+                                <p class="text-xs text-slate-600">Cole aqui o Link Geral (Valor Livre) e/ou os links individuais criados no app da InfinitePay.</p>
+                            </div>
+                            <button onclick="saveInfinitePayLinks()" class="px-4 py-2.5 rounded-xl wood-gradient text-white text-xs font-bold uppercase tracking-wider shadow">
+                                Salvar Links
+                            </button>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Link InfinitePay Geral / Valor Livre (Fallback para todas as cotas)</label>
+                            <input type="url" id="cfg-infinitepay-default" placeholder="https://link.infinitepay.io/ivan-emmylle/..." class="w-full px-3.5 py-2.5 rounded-xl border border-serene-300 bg-white text-xs outline-none focus:border-navy-800">
+                        </div>
+
+                        <div id="admin-infinitepay-items-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-1"></div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h4 class="font-bold text-sm text-navy-900">Mimos &amp; Recados Recebidos</h4>
+                        <div id="admin-gifts-list" class="space-y-2.5"></div>
+                    </div>
+                </div>
+
+                <!-- ABA CONFIGURAÇÕES GERAIS -->
+                <div id="admin-tab-settings" class="hidden space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Chave Pix Oficial do Casal</label>
+                            <input type="text" id="cfg-pix-key" class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">WhatsApp dos Noivos (55 + DDD + Número)</label>
+                            <input type="text" id="cfg-couple-phone" class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Supabase URL (Opcional - Nuvem)</label>
+                            <input type="text" id="cfg-sb-url" placeholder="https://xyz.supabase.co" class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-navy-900 mb-1">Supabase Anon Key (Opcional)</label>
+                            <input type="password" id="cfg-sb-key" placeholder="eyJhbGciOi..." class="w-full px-3.5 py-2.5 rounded-xl border border-serene-200 text-sm">
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <button onclick="saveAdminSettings()" class="px-6 py-3 rounded-xl bg-navy-800 hover:bg-navy-700 text-white text-xs font-bold uppercase tracking-wider">
+                            Salvar Configurações
+                        </button>
+                        <button onclick="resetCustomPhotos()" class="px-5 py-3 rounded-xl border border-rose-200 text-rose-600 hover:bg-rose-50 text-xs font-bold uppercase tracking-wider">
+                            Restaurar Fotos Padrão
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. COMPOSIÇÕES ARTÍSTICAS BASE (ZERO QUEBRA)
+        // ==========================================
+        function createEditorialScene(type) {
+            const c = document.createElement('canvas');
+            const isLandscape = (type === 'hero' || type === 'venueCeremony' || type === 'venueReception');
+            c.width = isLandscape ? 1280 : 800;
+            c.height = isLandscape ? 820 : 1000;
+            const ctx = c.getContext('2d');
+            const W = c.width, H = c.height;
+
+            if (type === 'hero' || type === 'storyMain') {
+                const sky = ctx.createLinearGradient(0, 0, 0, H);
+                sky.addColorStop(0, '#162C4E');
+                sky.addColorStop(0.38, '#5F84AC');
+                sky.addColorStop(0.58, '#D6C3A5');
+                sky.addColorStop(0.64, '#24476E');
+                sky.addColorStop(0.84, '#8BA8C7');
+                sky.addColorStop(1, '#C4B7A6');
+                ctx.fillStyle = sky;
+                ctx.fillRect(0, 0, W, H);
+
+                ctx.strokeStyle = 'rgba(255,255,255,0.28)';
+                ctx.lineWidth = 2;
+                for (let y = H * 0.62; y < H * 0.85; y += 14) {
+                    ctx.beginPath();
+                    ctx.moveTo(W * 0.08, y);
+                    ctx.bezierCurveTo(W * 0.35, y - 4, W * 0.65, y + 5, W * 0.92, y);
+                    ctx.stroke();
+                }
+
+                const cx = W * 0.50;
+                const cy = H * 0.56;
+
+                ctx.fillStyle = '#0F1E36';
+                ctx.beginPath();
+                ctx.ellipse(cx - 42, cy - 88, 26, 31, 0.12, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(cx - 64, cy - 92, 16, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#E8F0F8';
+                ctx.beginPath();
+                ctx.moveTo(cx - 58, cy - 52);
+                ctx.lineTo(cx - 20, cy - 52);
+                ctx.lineTo(cx - 10, cy + 165);
+                ctx.lineTo(cx - 72, cy + 165);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = '#162C4E';
+                ctx.beginPath();
+                ctx.arc(cx - 45, cy + 40, 14, 0, Math.PI * 2);
+                ctx.arc(cx - 32, cy + 95, 16, 0, Math.PI * 2);
+                ctx.arc(cx - 54, cy + 125, 13, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#0F1E36';
+                ctx.beginPath();
+                ctx.ellipse(cx + 34, cy - 96, 27, 33, -0.08, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = '#DCE4EC';
+                ctx.beginPath();
+                ctx.moveTo(cx + 8, cy - 58);
+                ctx.lineTo(cx + 66, cy - 54);
+                ctx.lineTo(cx + 62, cy + 75);
+                ctx.lineTo(cx + 12, cy + 75);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = '#B8A996';
+                ctx.fillRect(cx + 14, cy + 75, 46, 90);
+
+                ctx.fillStyle = '#4A6B8C';
+                ctx.beginPath();
+                ctx.moveTo(cx - 24, cy - 28);
+                ctx.lineTo(cx + 28, cy - 34);
+                ctx.lineTo(cx + 4, cy + 28);
+                ctx.closePath();
+                ctx.fill();
+
+                const flowerColors = ['#8BA8C7', '#FAF8F5', '#E6C25A', '#5F84AC'];
+                for (let i = 0; i < 14; i++) {
+                    ctx.fillStyle = flowerColors[i % flowerColors.length];
+                    ctx.beginPath();
+                    ctx.arc(cx - 16 + (i % 5) * 9, cy - 36 + Math.floor(i / 5) * 7, 6, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            } else if (type === 'venueCeremony') {
+                const sky = ctx.createLinearGradient(0, 0, 0, H);
+                sky.addColorStop(0, '#3D6B99');
+                sky.addColorStop(0.45, '#BBD4EC');
+                sky.addColorStop(0.55, '#689EC4');
+                sky.addColorStop(0.72, '#8EB9D6');
+                sky.addColorStop(0.73, '#5C6F3D');
+                sky.addColorStop(1, '#3D4D26');
+                ctx.fillStyle = sky;
+                ctx.fillRect(0, 0, W, H);
+
+                ctx.fillStyle = '#2A4728';
+                ctx.beginPath();
+                ctx.moveTo(0, H * 0.52);
+                ctx.quadraticCurveTo(W * 0.45, H * 0.42, W, H * 0.50);
+                ctx.lineTo(W, H * 0.56);
+                ctx.lineTo(0, H * 0.56);
+                ctx.fill();
+
+                ctx.strokeStyle = '#3B2B1C';
+                ctx.lineWidth = 7;
+                ctx.beginPath();
+                ctx.moveTo(W * 0.62, H * 0.72);
+                ctx.quadraticCurveTo(W * 0.61, H * 0.48, W * 0.64, H * 0.32);
+                ctx.stroke();
+
+                ctx.fillStyle = '#FAF8F5';
+                ctx.fillRect(W * 0.70, H * 0.60, 120, 14);
+                ctx.fillRect(W * 0.71, H * 0.61, 8, 65);
+                ctx.fillRect(W * 0.80, H * 0.61, 8, 65);
+
+                for (let row = 0; row < 3; row++) {
+                    for (let col = 0; col < 4; col++) {
+                        const x = W * (0.28 + col * 0.11);
+                        const y = H * (0.72 + row * 0.08);
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(x, y, 36, 6);
+                        ctx.fillRect(x, y - 34, 4, 54);
+                        ctx.fillRect(x + 32, y - 34, 4, 54);
+                        ctx.fillRect(x, y - 34, 36, 5);
+                    }
+                }
+            } else if (type === 'venueReception') {
+                ctx.fillStyle = '#0F1E36';
+                ctx.fillRect(0, 0, W, H);
+
+                ctx.fillStyle = '#182414';
+                ctx.fillRect(0, H * 0.76, W, H * 0.24);
+
+                const hx = W * 0.62, hy = H * 0.44;
+                ctx.fillStyle = '#5C3E21';
+                ctx.beginPath();
+                ctx.moveTo(hx - 110, hy + 130);
+                ctx.lineTo(hx, hy);
+                ctx.lineTo(hx + 110, hy + 130);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.fillStyle = '#F7D288';
+                ctx.fillRect(hx - 48, hy + 65, 36, 48);
+                ctx.fillRect(hx + 12, hy + 65, 36, 48);
+                ctx.beginPath();
+                ctx.moveTo(hx - 35, hy + 52);
+                ctx.lineTo(hx, hy + 16);
+                ctx.lineTo(hx + 35, hy + 52);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(W * 0.08, H * 0.30);
+                ctx.quadraticCurveTo(W * 0.45, H * 0.44, W * 0.88, H * 0.26);
+                ctx.stroke();
+
+                for (let i = 1; i <= 11; i++) {
+                    const t = i / 12;
+                    const lx = W * 0.08 + t * (W * 0.80);
+                    const ly = H * 0.30 + Math.sin(t * Math.PI) * 95;
+                    const glow = ctx.createRadialGradient(lx, ly, 1, lx, ly, 22);
+                    glow.addColorStop(0, 'rgba(255, 226, 153, 1)');
+                    glow.addColorStop(1, 'rgba(255, 190, 90, 0)');
+                    ctx.fillStyle = glow;
+                    ctx.beginPath();
+                    ctx.arc(lx, ly, 22, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                ctx.fillStyle = '#FAF8F5';
+                ctx.fillRect(W * 0.25, H * 0.66, 84, 34);
+                ctx.fillRect(W * 0.262, H * 0.60, 64, 28);
+                ctx.fillRect(W * 0.274, H * 0.55, 44, 24);
+                ctx.fillRect(W * 0.284, H * 0.51, 28, 20);
+            } else {
+                const bg = ctx.createLinearGradient(0, 0, W, H);
+                bg.addColorStop(0, type === 'storySub1' ? '#162C4E' : '#0F1E36');
+                bg.addColorStop(1, type === 'storySub1' ? '#5F84AC' : '#8C6239');
+                ctx.fillStyle = bg;
+                ctx.fillRect(0, 0, W, H);
+
+                ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(36, 36, W - 72, H - 72);
+
+                ctx.fillStyle = '#FAF8F5';
+                ctx.font = 'italic 64px Georgia, serif';
+                ctx.textAlign = 'center';
+                ctx.fillText('I & E', W / 2, H * 0.48);
+
+                ctx.fillStyle = '#E7D5C0';
+                ctx.font = '600 18px sans-serif';
+                ctx.fillText(type === 'storySub1' ? '2021 • ONDE TUDO COMEÇOU' : '20.11.2027 • VILLA RIO', W / 2, H * 0.55);
+            }
+
+            return c.toDataURL('image/jpeg', 0.88);
+        }
+
+        // ==========================================
+        // 2. GERADOR DE PIX EMV (COPIA E COLA COM VALOR EXATO)
+        // ==========================================
+        function crc16CCITT(str) {
+            let crc = 0xFFFF;
+            for (let i = 0; i < str.length; i++) {
+                crc ^= str.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    if ((crc & 0x8000) !== 0) {
+                        crc = ((crc << 1) ^ 0x1021) & 0xFFFF;
+                    } else {
+                        crc = (crc << 1) & 0xFFFF;
+                    }
+                }
+            }
+            return crc.toString(16).toUpperCase().padStart(4, '0');
+        }
+
+        function emvField(id, value) {
+            const len = String(value.length).padStart(2, '0');
+            return `${id}${len}${value}`;
+        }
+
+        function buildPixEmvPayload(pixKey, amount, txid = 'CASAMENTOIE27') {
+            const cleanKey = pixKey.trim();
+            const gui = emvField('00', 'br.gov.bcb.pix');
+            const keyField = emvField('01', cleanKey);
+            const merchantAccountInfo = emvField('26', gui + keyField);
+
+            const amountStr = Number(amount).toFixed(2);
+            const merchantName = 'IVAN ITALO PROCOPIO';
+            const merchantCity = 'PAULISTA';
+            const additionalData = emvField('62', emvField('05', txid.replace(/[^A-Za-z0-9]/g, '').slice(0, 20) || 'IE2027'));
+
+            const payloadWithoutCrc =
+                emvField('00', '01') +
+                merchantAccountInfo +
+                emvField('52', '0000') +
+                emvField('53', '986') +
+                emvField('54', amountStr) +
+                emvField('58', 'BR') +
+                emvField('59', merchantName) +
+                emvField('60', merchantCity) +
+                additionalData +
+                '6304';
+
+            const crc = crc16CCITT(payloadWithoutCrc);
+            return payloadWithoutCrc + crc;
+        }
+
+        // ==========================================
+        // 3. ARMAZENAMENTO SEGURO & MODO DESENVOLVEDOR (SENHA: 1708)
+        // ==========================================
+        const DEV_PASSWORD = '1708';
+        let isDevMode = false;
+
+        function safeGetStorage(key, fallback) {
+            try {
+                const raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : fallback;
+            } catch (err) {
+                return fallback;
+            }
+        }
+
+        function safeSetStorage(key, value) {
+            try {
+                localStorage.setItem(key, JSON.stringify(value));
+            } catch (err) {
+                console.warn('Armazenamento local cheio, mantendo estado em memória.');
+            }
+        }
+
+        function requestDevAccess() {
+            if (isDevMode) {
+                openAdminModal();
+                return;
+            }
+            const modal = document.getElementById('dev-auth-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            const input = document.getElementById('dev-password-input');
+            input.value = '';
+            setTimeout(() => input.focus(), 100);
+        }
+
+        function closeDevAuthModal() {
+            const modal = document.getElementById('dev-auth-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function verifyDevPassword(e) {
+            e.preventDefault();
+            const val = document.getElementById('dev-password-input').value.trim();
+            if (val === DEV_PASSWORD) {
+                isDevMode = true;
+                document.body.classList.add('dev-mode');
+                document.getElementById('dev-trigger-label').textContent = 'Modo Dev Ativo';
+                closeDevAuthModal();
+                renderCoupleGallery();
+                renderSocialFeed();
+                showToast('Modo Desenvolvedor ativado com sucesso!');
+            } else {
+                showToast('Senha incorreta. Acesso negado.');
+                document.getElementById('dev-password-input').value = '';
+            }
+        }
+
+        function exitDevMode() {
+            isDevMode = false;
+            document.body.classList.remove('dev-mode');
+            document.getElementById('dev-trigger-label').textContent = 'v2.0 • Dev';
+            closeAdminModal();
+            renderCoupleGallery();
+            renderSocialFeed();
+            showToast('Modo Desenvolvedor bloqueado. Visualização de convidado ativa.');
+        }
+
+        // ==========================================
+        // 4. GESTÃO DE FOTOS (SOMENTE MODO DESENVOLVEDOR)
+        // ==========================================
+        const DEFAULT_IMAGES = {
+            hero: createEditorialScene('hero'),
+            storyMain: createEditorialScene('storyMain'),
+            storySub1: createEditorialScene('storySub1'),
+            storySub2: createEditorialScene('storySub2'),
+            venueCeremony: createEditorialScene('venueCeremony'),
+            venueReception: createEditorialScene('venueReception')
+        };
+
+        let customSlots = safeGetStorage('ie_custom_photo_slots_v2', {});
+
+        function getSlotImage(slotName) {
+            return customSlots[slotName] || DEFAULT_IMAGES[slotName];
+        }
+
+        function applyAllSlotImages() {
+            Object.keys(DEFAULT_IMAGES).forEach(slot => {
+                const el = document.getElementById(`slot-img-${slot}`);
+                if (el) el.src = getSlotImage(slot);
+            });
+        }
+
+        let activeUploadSlot = null;
+        function triggerSlotUpload(slotName) {
+            if (!isDevMode) {
+                showToast('Ative o Modo Desenvolvedor para editar as fotos.');
+                return;
+            }
+            activeUploadSlot = slotName;
+            document.getElementById('single-slot-uploader').click();
+        }
+
+        function compressImageFile(file, maxWidth, quality, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let w = img.width;
+                    let h = img.height;
+                    if (w > maxWidth) {
+                        h = Math.round((h * maxWidth) / w);
+                        w = maxWidth;
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    callback(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleSingleSlotFile(event) {
+            if (!isDevMode) return;
+            const file = event.target.files[0];
+            if (!file || !activeUploadSlot) return;
+
+            compressImageFile(file, 1280, 0.82, function(dataUrl) {
+                customSlots[activeUploadSlot] = dataUrl;
+                safeSetStorage('ie_custom_photo_slots_v2', customSlots);
+                applyAllSlotImages();
+                renderCoupleGallery();
+                event.target.value = '';
+                showToast('Foto atualizada e salva com sucesso!');
+            });
+        }
+
+        function resetCustomPhotos() {
+            if (!isDevMode) return;
+            customSlots = {};
+            safeSetStorage('ie_custom_photo_slots_v2', {});
+            applyAllSlotImages();
+            renderCoupleGallery();
+            showToast('Fotos padrão restauradas.');
+        }
+
+        // ==========================================
+        // 5. GALERIA EDITORIAL DO CASAL & LOCAL
+        // ==========================================
+        let extraGalleryPhotos = safeGetStorage('ie_extra_gallery_v2', []);
+
+        function renderCoupleGallery() {
+            const grid = document.getElementById('couple-gallery-grid');
+            grid.innerHTML = '';
+
+            const baseItems = [
+                { slot: 'hero', title: 'O Pedido na Praia', caption: 'Sob o mesmo pôr do sol do nosso primeiro encontro' },
+                { slot: 'storyMain', title: 'Entardecer à Beira da Água', caption: 'Onde nossos planos sempre se encontram' },
+                { slot: 'venueCeremony', title: 'Villa Rio • A Cerimônia', caption: 'Gramado de frente para o rio em Maria Farinha' },
+                { slot: 'venueReception', title: 'Villa Rio • Recepção à Noite', caption: 'Chalé de madeira iluminado sob luzes quentes' },
+                { slot: 'storySub1', title: '2021 • Onde Tudo Começou', caption: 'De uma resposta no WhatsApp para a vida inteira' },
+                { slot: 'storySub2', title: '20.11.2027 • O Grande Dia', caption: 'Celebrando o amor às 16h00' }
+            ];
+
+            baseItems.forEach(item => {
+                const src = getSlotImage(item.slot);
+                const div = document.createElement('div');
+                div.className = 'group relative rounded-2xl overflow-hidden aspect-[4/5] bg-navy-900 shadow-lg border border-serene-200';
+                div.innerHTML = `
+                    <img onclick="openGalleryLightbox('${item.slot}', '${item.title}', '${item.caption}')" src="${src}" alt="${item.title}" class="cursor-zoom-in w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                    <button onclick="triggerSlotUpload('${item.slot}')" class="dev-only absolute top-3 right-3 px-2.5 py-1 rounded-full bg-wood-600 hover:bg-wood-500 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 border border-white/25 shadow transition">
+                        <i class="fa-solid fa-camera"></i>
+                        <span>Trocar</span>
+                    </button>
+                    <div onclick="openGalleryLightbox('${item.slot}', '${item.title}', '${item.caption}')" class="cursor-zoom-in absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-navy-950/85 via-navy-950/35 to-transparent text-white">
+                        <span class="font-serif italic text-lg block leading-tight">${item.title}</span>
+                        <span class="text-[11px] text-serene-200">${item.caption}</span>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+
+            extraGalleryPhotos.forEach((photo, idx) => {
+                const div = document.createElement('div');
+                div.className = 'group relative rounded-2xl overflow-hidden aspect-[4/5] bg-navy-900 shadow-lg border border-serene-200';
+                div.innerHTML = `
+                    <img onclick="openDirectLightbox(${idx})" src="${photo.src}" alt="${photo.title}" class="cursor-zoom-in w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                    <button onclick="removeExtraGalleryPhoto(${idx})" class="dev-only absolute top-3 right-3 w-7 h-7 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs flex items-center justify-center shadow">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-navy-950/85 to-transparent text-white">
+                        <span class="font-serif italic text-lg block">${photo.title}</span>
+                    </div>
+                `;
+                grid.appendChild(div);
+            });
+        }
+
+        function handleBulkGalleryUpload(event) {
+            if (!isDevMode) return;
+            const files = Array.from(event.target.files || []);
+            if (files.length === 0) return;
+
+            let processed = 0;
+            files.forEach(file => {
+                compressImageFile(file, 960, 0.78, function(dataUrl) {
+                    extraGalleryPhotos.unshift({
+                        src: dataUrl,
+                        title: 'Ivan & Emmylle'
+                    });
+                    if (extraGalleryPhotos.length > 12) extraGalleryPhotos = extraGalleryPhotos.slice(0, 12);
+                    processed++;
+                    if (processed === files.length) {
+                        safeSetStorage('ie_extra_gallery_v2', extraGalleryPhotos);
+                        renderCoupleGallery();
+                        event.target.value = '';
+                        showToast(`${files.length} foto(s) adicionada(s) à galeria!`);
+                    }
+                });
+            });
+        }
+
+        function removeExtraGalleryPhoto(index) {
+            if (!isDevMode) return;
+            extraGalleryPhotos.splice(index, 1);
+            safeSetStorage('ie_extra_gallery_v2', extraGalleryPhotos);
+            renderCoupleGallery();
+            showToast('Foto removida da galeria.');
+        }
+
+        function openGalleryLightbox(slotName, title, caption) {
+            document.getElementById('lightbox-img').src = getSlotImage(slotName);
+            document.getElementById('lightbox-author').textContent = title;
+            document.getElementById('lightbox-caption').textContent = caption;
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function openDirectLightbox(idx) {
+            const p = extraGalleryPhotos[idx];
+            if (!p) return;
+            document.getElementById('lightbox-img').src = p.src;
+            document.getElementById('lightbox-author').textContent = p.title;
+            document.getElementById('lightbox-caption').textContent = 'Álbum de Memórias • Ivan & Emmylle';
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // ==========================================
+        // 6. DADOS DO CASAMENTO, MURAL & LISTA DE 13 PRESENTES
+        // ==========================================
+        const DEFAULT_SETTINGS = {
+            pixKey: 'ivanitalo.procopio@gmail.com',
+            couplePhone: '5581999999999',
+            infinitePayDefaultLink: 'https://jim.com/a/ivan-italo-tna',
+            infinitePayItemLinks: {
+                '1': 'https://jim.com/a/ivan-italo-tna?product=23079635',
+                '2': 'https://jim.com/a/ivan-italo-tna?product=23079636',
+                '3': 'https://jim.com/a/ivan-italo-tna?product=23079641',
+                '4': 'https://jim.com/a/ivan-italo-tna?product=23079643',
+                '5': 'https://jim.com/a/ivan-italo-tna?product=23079645',
+                '6': 'https://jim.com/a/ivan-italo-tna?product=23079647',
+                '7': 'https://jim.com/a/ivan-italo-tna?product=23079649',
+                '8': 'https://jim.com/a/ivan-italo-tna?product=23079655',
+                '9': 'https://jim.com/a/ivan-italo-tna',
+                '10': 'https://jim.com/a/ivan-italo-tna?product=23079666',
+                '11': 'https://jim.com/a/ivan-italo-tna?product=23079668',
+                '12': 'https://jim.com/a/ivan-italo-tna?product=23079670',
+                '13': 'https://jim.com/a/ivan-italo-tna?product=23079672',
+                'goal-honeymoon': 'https://jim.com/a/ivan-italo-tna?product=23079678',
+                'goal-home': 'https://jim.com/a/ivan-italo-tna?product=23079681',
+                'custom-free': 'https://jim.com/a/ivan-italo-tna?product=23079684'
+            },
+            sbUrl: '',
+            sbKey: ''
+        };
+
+        const GIFTS_DATA = [
+            {
+                id: 1,
+                tier: 'up100',
+                badge: 'Clássico',
+                title: 'Café Extra Forte para Sobreviver aos Boletos do Apê',
+                price: 'R$ 50,00',
+                amount: 50,
+                icon: 'fa-mug-hot',
+                desc: 'Combustível essencial para encarar as parcelas e a vida adulta com bom humor.'
+            },
+            {
+                id: 2,
+                tier: 'up100',
+                badge: 'Mais Escolhido',
+                title: 'Kit Anti-Perrengue para o Próximo Passeio de Barco',
+                price: 'R$ 75,00',
+                amount: 75,
+                icon: 'fa-umbrella',
+                desc: 'Inclui guarda-chuva reforçado para que nenhum temporal atrapalhe nossos planos de novo!'
+            },
+            {
+                id: 3,
+                tier: 'up100',
+                badge: 'Nostalgia',
+                title: 'Vale-Lanche Nostálgico na Praça do Boa Vista',
+                price: 'R$ 100,00',
+                amount: 100,
+                icon: 'fa-burger',
+                desc: 'Para relembrar exatamente onde o pedido de namoro aconteceu (sem grandes produções, mas com muito amor).'
+            },
+            {
+                id: 4,
+                tier: '130to300',
+                badge: 'Sobrevivência',
+                title: 'Pacote de Paciência para a Montagem dos Móveis',
+                price: 'R$ 120,00',
+                amount: 120,
+                icon: 'fa-screwdriver-wrench',
+                desc: 'Manual traduzido e zero estresse na hora de descobrir onde encaixa aquele parafuso que sobrou.'
+            },
+            {
+                id: 5,
+                tier: '130to300',
+                badge: 'Humor',
+                title: 'Curso: Como Não Deixar as Alianças Atrasarem',
+                price: 'R$ 130,00',
+                amount: 130,
+                icon: 'fa-ring',
+                desc: 'Para poupar o coração do Ivan de outra maratona de ansiedade antes de datas importantes.'
+            },
+            {
+                id: 6,
+                tier: '130to300',
+                badge: 'Favorito',
+                title: 'Jantar Romântico Sem Precisar Lavar a Louça',
+                price: 'R$ 160,00',
+                amount: 160,
+                icon: 'fa-utensils',
+                desc: 'Uma noite especial onde ninguém precisa decidir quem vai encarar a pia depois.'
+            },
+            {
+                id: 7,
+                tier: '130to300',
+                badge: 'Fim de Semana',
+                title: 'Fundo Oficial para Petiscos & Rolês de Fim de Semana',
+                price: 'R$ 190,00',
+                amount: 190,
+                icon: 'fa-champagne-glasses',
+                desc: 'Para manter viva a tradição de levar a vida com leveza e boas risadas.'
+            },
+            {
+                id: 8,
+                tier: '130to300',
+                badge: 'Essencial PE',
+                title: 'Auxílio Ar-Condicionado para o Calor de Pernambuco',
+                price: 'R$ 220,00',
+                amount: 220,
+                icon: 'fa-snowflake',
+                desc: 'Ajuda humanitária indispensável para a conta de energia do nosso apartamento.'
+            },
+            {
+                id: 9,
+                tier: '130to300',
+                badge: 'Favorito dos Padrinhos',
+                title: 'Cota "A Noiva Sempre Tem Razão" (Validade Vitalícia)',
+                price: 'R$ 260,00',
+                amount: 260,
+                icon: 'fa-crown',
+                desc: 'Cartão vitalício que encerra qualquer discussão em 3 segundos com um sorriso.'
+            },
+            {
+                id: 10,
+                tier: '130to300',
+                badge: 'Romântico',
+                title: 'Day Use VIP na Praia do Primeiro Encontro',
+                price: 'R$ 300,00',
+                amount: 300,
+                icon: 'fa-umbrella-beach',
+                desc: 'Para voltar ao lugar onde tudo começou e onde o pedido selou o nosso “sim”.'
+            },
+            {
+                id: 11,
+                tier: 'master',
+                badge: 'Presente em Grupo',
+                title: 'Fundo de Emergência para a Lua de Mel dos Sonhos',
+                price: 'R$ 450,00',
+                amount: 450,
+                icon: 'fa-plane-departure',
+                desc: 'Direto para os passeios e experiências inesquecíveis da nossa primeira viagem casados.'
+            },
+            {
+                id: 12,
+                tier: 'master',
+                badge: 'Presente em Grupo',
+                title: 'Eletrodoméstico de Respeito para o Novo Apê',
+                price: 'R$ 650,00',
+                amount: 650,
+                icon: 'fa-house-chimney-heart',
+                desc: 'Um reforço de peso para equipar a cozinha da nossa maior conquista.'
+            },
+            {
+                id: 13,
+                tier: 'master',
+                badge: 'Patrocinador VIP',
+                title: 'Patrocinador Master do Casamento Ivan & Emmylle',
+                price: 'R$ 1.000,00',
+                amount: 1000,
+                icon: 'fa-gem',
+                desc: 'Inclui passe livre na mesa de doces, abraço VIP dos noivos e gratidão eterna!'
+            }
+        ];
+
+        const EXTRA_GOAL_ITEMS = {
+            'goal-honeymoon': {
+                id: 'goal-honeymoon',
+                title: 'Cota Meta — Nossa Lua de Mel',
+                price: 'R$ 150,00',
+                amount: 150,
+                goalTarget: 'honeymoon'
+            },
+            'goal-home': {
+                id: 'goal-home',
+                title: 'Cota Meta — Mobiliando Nosso Primeiro Apê',
+                price: 'R$ 200,00',
+                amount: 200,
+                goalTarget: 'home'
+            },
+            'custom-free': {
+                id: 'custom-free',
+                title: 'Presente com Valor Livre (A partir de R$ 50,00)',
+                price: 'Você Escolhe',
+                amount: 100,
+                isCustom: true
+            }
+        };
+
+        const SAMPLE_POSTS = [
+            {
+                id: 'welcome-1',
+                author: 'Ivan & Emmylle',
+                tag: 'Pôr do Sol no Rio',
+                caption: 'Contando os dias para viver esse pôr do sol de frente para o rio com cada um de vocês! Postem suas fotos aqui para eternizarmos esse dia juntos.',
+                image: DEFAULT_IMAGES.hero,
+                likes: 42,
+                likedByMe: false,
+                time: 'Fixado pelos Noivos',
+                comments: [
+                    { author: 'Madrinhas & Padrinhos', text: 'Já estamos prontos para emocionar todo mundo!' }
+                ]
+            },
+            {
+                id: 'welcome-2',
+                author: 'Villa Rio • Maria Farinha',
+                tag: 'Cerimônia',
+                caption: 'Nosso gramado à beira do rio esperando o pôr do sol do dia 20 de novembro. Abram a câmera do celular e registrem cada abraço!',
+                image: DEFAULT_IMAGES.venueCeremony,
+                likes: 31,
+                likedByMe: false,
+                time: 'Fixado pelos Noivos',
+                comments: []
+            }
+        ];
+
+        let settings = Object.assign({}, DEFAULT_SETTINGS, safeGetStorage('ie_wedding_settings_v7', {}));
+        settings.infinitePayItemLinks = Object.assign({}, DEFAULT_SETTINGS.infinitePayItemLinks, settings.infinitePayItemLinks || {});
+        let guests = safeGetStorage('ie_wedding_guests_v7', []);
+        let socialPosts = safeGetStorage('ie_wedding_social_posts_v7', SAMPLE_POSTS);
+        let receivedGifts = safeGetStorage('ie_wedding_gifts_v7', []);
+
+        let currentSocialFilter = 'all';
+        let currentGiftFilter = 'all';
+        let compressedUploadBase64 = '';
+        let currentTicketData = null;
+        let selectedGift = null;
+        let currentPixEmvString = '';
+
+        // ==========================================
+        // 7. CONTAGEM REGRESSIVA (20/11/2027 16:00)
+        // ==========================================
+        function updateCountdown() {
+            const target = new Date('2027-11-20T16:00:00-03:00').getTime();
+            const now = Date.now();
+            const diff = target - now;
+
+            if (diff <= 0) {
+                ['cd-days', 'cd-hours', 'cd-minutes', 'cd-seconds'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.textContent = '00';
+                });
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('cd-days').textContent = String(days).padStart(3, '0');
+            document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('cd-minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('cd-seconds').textContent = String(seconds).padStart(2, '0');
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // ==========================================
+        // 8. SALVAR NA AGENDA (.ICS)
+        // ==========================================
+        function downloadICS() {
+            const ics = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Ivan e Emmylle 2027//PT-BR',
+                'BEGIN:VEVENT',
+                'DTSTART:20271120T190000Z',
+                'DTEND:20271121T020000Z',
+                'SUMMARY:Casamento de Ivan & Emmylle',
+                'LOCATION:Villa Rio - R. Anísio Carneiro Leão, 118 - Maria Farinha, Paulista - PE, 53427-290',
+                'DESCRIPTION:Cerimônia à beira do rio às 16h00 e Recepção sob as luzes às 17h30 no Villa Rio, Maria Farinha!',
+                'END:VEVENT',
+                'END:VCALENDAR'
+            ].join('\r\n');
+
+            const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Casamento-Ivan-e-Emmylle.ics';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Evento baixado! Abra o arquivo para salvar na sua agenda.');
+        }
+
+        // ==========================================
+        // 9. MURAL AO VIVO • INSTAWEDDING
+        // ==========================================
+        function handleSocialPhotoSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            compressImageFile(file, 960, 0.78, function(dataUrl) {
+                compressedUploadBase64 = dataUrl;
+                const preview = document.getElementById('photo-upload-preview');
+                preview.src = compressedUploadBase64;
+                preview.classList.remove('hidden');
+                document.getElementById('photo-upload-placeholder').classList.add('hidden');
+                document.getElementById('clear-photo-btn').classList.remove('hidden');
+            });
+        }
+
+        function clearSelectedPhoto() {
+            compressedUploadBase64 = '';
+            document.getElementById('social-photo-input').value = '';
+            document.getElementById('photo-upload-preview').classList.add('hidden');
+            document.getElementById('photo-upload-placeholder').classList.remove('hidden');
+            document.getElementById('clear-photo-btn').classList.add('hidden');
+        }
+
+        document.getElementById('social-post-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const author = document.getElementById('social-author').value.trim();
+            const tag = document.getElementById('social-tag').value;
+            const caption = document.getElementById('social-caption').value.trim();
+
+            if (!compressedUploadBase64) {
+                showToast('Por favor, tire uma foto ou selecione uma imagem da galeria!');
+                return;
+            }
+
+            const newPost = {
+                id: 'post-' + Date.now(),
+                author,
+                tag,
+                caption,
+                image: compressedUploadBase64,
+                likes: 1,
+                likedByMe: true,
+                time: 'Agora mesmo',
+                comments: []
+            };
+
+            socialPosts.unshift(newPost);
+            if (socialPosts.length > 25) socialPosts = socialPosts.slice(0, 25);
+            safeSetStorage('ie_wedding_social_posts_v7', socialPosts);
+
+            this.reset();
+            clearSelectedPhoto();
+            renderSocialFeed();
+            showToast('Sua foto foi publicada no Mural Ao Vivo!');
+        });
+
+        function filterSocialPosts(tag, btnEl) {
+            currentSocialFilter = tag;
+            document.querySelectorAll('.social-filter-btn').forEach(b => {
+                b.classList.remove('bg-navy-800', 'text-white');
+                b.classList.add('bg-white', 'text-navy-900');
+            });
+            btnEl.classList.add('bg-navy-800', 'text-white');
+            btnEl.classList.remove('bg-white', 'text-navy-900');
+            renderSocialFeed();
+        }
+
+        function renderSocialFeed() {
+            const grid = document.getElementById('social-feed-grid');
+            grid.innerHTML = '';
+
+            const filtered = currentSocialFilter === 'all'
+                ? socialPosts
+                : socialPosts.filter(p => p.tag === currentSocialFilter);
+
+            document.getElementById('social-posts-counter').textContent = `${filtered.length} ${filtered.length === 1 ? 'publicação' : 'publicações'}`;
+
+            filtered.forEach(post => {
+                const initials = post.author.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+                const card = document.createElement('article');
+                card.className = 'bg-white rounded-3xl border border-serene-200 shadow-lg overflow-hidden flex flex-col';
+
+                const commentsHtml = (post.comments || []).map(c => `
+                    <div class="text-xs bg-serene-50 px-3 py-2 rounded-xl">
+                        <strong class="text-navy-900">${c.author}:</strong>
+                        <span class="text-slate-700">${c.text}</span>
+                    </div>
+                `).join('');
+
+                card.innerHTML = `
+                    <div class="px-5 py-3.5 flex items-center justify-between border-b border-serene-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-navy-800 text-wood-300 font-bold text-xs flex items-center justify-center">
+                                ${initials}
+                            </div>
+                            <div>
+                                <strong class="block text-xs font-bold text-navy-900">${post.author}</strong>
+                                <span class="text-[11px] text-slate-400">${post.time}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="px-3 py-1 rounded-full bg-serene-100 text-navy-900 text-[11px] font-bold">
+                                #${post.tag.replace(/\s+/g, '')}
+                            </span>
+                            <button onclick="deleteSocialPost('${post.id}')" title="Excluir Publicação" class="dev-only w-8 h-8 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-xs flex items-center justify-center shadow transition">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div onclick="openPostLightbox('${post.id}')" class="cursor-zoom-in relative aspect-[4/3] bg-navy-900 overflow-hidden group">
+                        <img src="${post.image}" alt="Foto por ${post.author}" class="w-full h-full object-cover group-hover:scale-[1.03] transition duration-500">
+                    </div>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex items-center gap-4 mb-2.5">
+                                <button onclick="toggleLikePost('${post.id}')" class="flex items-center gap-1.5 text-sm font-bold ${post.likedByMe ? 'text-rose-500' : 'text-navy-900 hover:text-rose-500'} transition">
+                                    <i class="${post.likedByMe ? 'fa-solid' : 'fa-regular'} fa-heart text-lg"></i>
+                                    <span>${post.likes}</span>
+                                </button>
+                                <button onclick="document.getElementById('comment-input-${post.id}').focus()" class="flex items-center gap-1.5 text-sm font-semibold text-navy-900 hover:text-wood-500 transition">
+                                    <i class="fa-regular fa-comment text-lg"></i>
+                                    <span>${(post.comments || []).length}</span>
+                                </button>
+                            </div>
+
+                            <p class="text-sm text-slate-700 leading-relaxed">
+                                <strong class="text-navy-900 mr-1">${post.author}</strong>
+                                ${post.caption}
+                            </p>
+                        </div>
+
+                        <div class="space-y-2 pt-2">
+                            <div class="space-y-1.5 max-h-28 overflow-y-auto">${commentsHtml}</div>
+                            <form onsubmit="addCommentToPost(event, '${post.id}')" class="flex items-center gap-2 pt-1">
+                                <input id="comment-input-${post.id}" type="text" required placeholder="Escreva um comentário..." class="flex-1 px-3 py-2 rounded-xl bg-serene-50 border border-serene-200 text-xs outline-none focus:border-navy-800">
+                                <button type="submit" class="px-3 py-2 rounded-xl bg-navy-800 text-white text-xs font-bold hover:bg-navy-700 transition">
+                                    Enviar
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleLikePost(postId) {
+            const post = socialPosts.find(p => p.id === postId);
+            if (!post) return;
+            post.likedByMe = !post.likedByMe;
+            post.likes += post.likedByMe ? 1 : -1;
+            safeSetStorage('ie_wedding_social_posts_v7', socialPosts);
+            renderSocialFeed();
+        }
+
+        function addCommentToPost(e, postId) {
+            e.preventDefault();
+            const input = document.getElementById(`comment-input-${postId}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const post = socialPosts.find(p => p.id === postId);
+            if (!post) return;
+            post.comments = post.comments || [];
+            post.comments.push({ author: 'Convidado', text });
+            safeSetStorage('ie_wedding_social_posts_v7', socialPosts);
+            renderSocialFeed();
+        }
+
+        function openPostLightbox(postId) {
+            const post = socialPosts.find(p => p.id === postId);
+            if (!post) return;
+            document.getElementById('lightbox-img').src = post.image;
+            document.getElementById('lightbox-author').textContent = `${post.author} • #${post.tag.replace(/\s+/g, '')}`;
+            document.getElementById('lightbox-caption').textContent = post.caption;
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightbox-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // ==========================================
+        // 10. MODO TELÃO (SLIDESHOW AO VIVO)
+        // ==========================================
+        let slideIndex = 0;
+        let slideInterval = null;
+
+        function openSlideshowModal() {
+            if (socialPosts.length === 0) {
+                showToast('Ainda não há fotos no mural.');
+                return;
+            }
+            slideIndex = 0;
+            updateSlideshowFrame();
+            const modal = document.getElementById('slideshow-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 6000);
+        }
+
+        function closeSlideshowModal() {
+            clearInterval(slideInterval);
+            const modal = document.getElementById('slideshow-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function updateSlideshowFrame() {
+            const post = socialPosts[slideIndex];
+            document.getElementById('slide-image').src = post.image;
+            document.getElementById('slide-tag').textContent = `#${post.tag.replace(/\s+/g, '')}`;
+            document.getElementById('slide-caption').textContent = `"${post.caption}"`;
+            document.getElementById('slide-author').textContent = post.author;
+            document.getElementById('slide-counter').textContent = `${slideIndex + 1} / ${socialPosts.length}`;
+        }
+
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % socialPosts.length;
+            updateSlideshowFrame();
+        }
+
+        function prevSlide() {
+            slideIndex = (slideIndex - 1 + socialPosts.length) % socialPosts.length;
+            updateSlideshowFrame();
+        }
+
+        // ==========================================
+        // 11. LISTA DE PRESENTES, METAS, PIX EMV & INFINITEPAY
+        // ==========================================
+        function updateGoalsProgressUI() {
+            const honeymoonExtra = receivedGifts
+                .filter(g => g.goalTarget === 'honeymoon')
+                .reduce((sum, g) => sum + (g.numericAmount || 0), 0);
+
+            const homeExtra = receivedGifts
+                .filter(g => g.goalTarget === 'home')
+                .reduce((sum, g) => sum + (g.numericAmount || 0), 0);
+
+            const hmTotal = 1400 + honeymoonExtra;
+            const hmPct = Math.min(100, Math.round((hmTotal / 4000) * 100));
+            document.getElementById('goal-honeymoon-raised').textContent = `R$ ${hmTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('goal-honeymoon-pct').textContent = `${hmPct}% alcançado`;
+            document.getElementById('goal-honeymoon-bar').style.width = `${hmPct}%`;
+
+            const homeTotal = 2100 + homeExtra;
+            const homePct = Math.min(100, Math.round((homeTotal / 5000) * 100));
+            document.getElementById('goal-home-raised').textContent = `R$ ${homeTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('goal-home-pct').textContent = `${homePct}% alcançado`;
+            document.getElementById('goal-home-bar').style.width = `${homePct}%`;
+        }
+
+        function renderGifts(filter = 'all') {
+            currentGiftFilter = filter;
+            const grid = document.getElementById('gifts-grid');
+            grid.innerHTML = '';
+
+            let items = filter === 'all' ? [...GIFTS_DATA] : GIFTS_DATA.filter(g => g.tier === filter);
+            const sortMode = document.getElementById('gift-sort-select')?.value || 'featured';
+            if (sortMode === 'asc') items.sort((a, b) => a.amount - b.amount);
+            if (sortMode === 'desc') items.sort((a, b) => b.amount - a.amount);
+
+            items.forEach(gift => {
+                const card = document.createElement('div');
+                card.className = 'bg-white rounded-3xl p-6 border border-serene-200 shadow-md flex flex-col justify-between hover:-translate-y-1 transition duration-300';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <div class="w-12 h-12 rounded-2xl bg-navy-800 text-wood-300 flex items-center justify-center shrink-0">
+                                <i class="fa-solid ${gift.icon} text-lg"></i>
+                            </div>
+                            <div class="flex flex-col items-end gap-1">
+                                <span class="px-3.5 py-1 rounded-full bg-wood-100 border border-wood-300 text-wood-600 font-bold text-xs">${gift.price}</span>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-serene-500">${gift.badge}</span>
+                            </div>
+                        </div>
+                        <h3 class="font-serif text-2xl text-navy-900 mt-1 mb-2 font-semibold leading-snug">${gift.title}</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed mb-6">${gift.desc}</p>
+                    </div>
+                    <button onclick="openGiftModal(${gift.id})" class="w-full py-3.5 rounded-xl bg-serene-50 hover:bg-navy-800 text-navy-900 hover:text-white border border-serene-200 font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-gift text-wood-500"></i>
+                        <span>Presentear (Pix ou InfinitePay)</span>
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+
+            // Card Final: Presente com Valor Livre
+            const freeCard = document.createElement('div');
+            freeCard.className = 'bg-navy-900 text-white rounded-3xl p-6 border border-wood-400/50 shadow-lg flex flex-col justify-between hover:-translate-y-1 transition duration-300';
+            freeCard.innerHTML = `
+                <div>
+                    <div class="flex items-center justify-between gap-2 mb-4">
+                        <div class="w-12 h-12 rounded-2xl wood-gradient text-white flex items-center justify-center shrink-0">
+                            <i class="fa-solid fa-heart text-lg"></i>
+                        </div>
+                        <span class="px-3.5 py-1 rounded-full bg-white/10 text-wood-300 font-bold text-xs">Você Escolhe</span>
+                    </div>
+                    <h3 class="font-serif text-2xl text-white mt-1 mb-2 font-semibold leading-snug">Presente com Valor Livre (A partir de R$ 50)</h3>
+                    <p class="text-xs text-serene-200 leading-relaxed mb-6">Escolha o valor que desejar para abençoar o nosso casamento via Pix instantâneo ou Cartão de Crédito na InfinitePay.</p>
+                </div>
+                <button onclick="openGiftModal('custom-free')" class="w-full py-3.5 rounded-xl wood-gradient text-white font-bold text-xs uppercase tracking-wider hover:brightness-110 transition flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Escolher Valor Agora</span>
+                </button>
+            `;
+            grid.appendChild(freeCard);
+        }
+
+        function filterGifts(category, btnEl) {
+            document.querySelectorAll('.gift-filter').forEach(b => {
+                b.classList.remove('bg-navy-800', 'text-white');
+                b.classList.add('text-navy-900');
+            });
+            btnEl.classList.add('bg-navy-800', 'text-white');
+            btnEl.classList.remove('text-navy-900');
+            renderGifts(category);
+        }
+
+        function openGiftModal(giftKey) {
+            if (typeof giftKey === 'string' && EXTRA_GOAL_ITEMS[giftKey]) {
+                selectedGift = EXTRA_GOAL_ITEMS[giftKey];
+            } else {
+                selectedGift = GIFTS_DATA.find(g => g.id === giftKey) || GIFTS_DATA[0];
+            }
+
+            document.getElementById('gift-modal-title').textContent = selectedGift.title;
+            document.getElementById('pix-key-display').textContent = settings.pixKey;
+
+            const fixedBadge = document.getElementById('gift-fixed-price-badge');
+            const customWrap = document.getElementById('gift-custom-price-wrapper');
+
+            if (selectedGift.isCustom) {
+                fixedBadge.classList.add('hidden');
+                customWrap.classList.remove('hidden');
+                document.getElementById('gift-custom-amount').value = 100;
+            } else {
+                fixedBadge.classList.remove('hidden');
+                customWrap.classList.add('hidden');
+                fixedBadge.textContent = selectedGift.price;
+            }
+
+            switchGiftPaymentTab('pix');
+            renderGiftPixQR();
+
+            const modal = document.getElementById('gift-checkout-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeGiftModal() {
+            const modal = document.getElementById('gift-checkout-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function getActiveGiftAmount() {
+            if (!selectedGift) return 100;
+            if (selectedGift.isCustom) {
+                const v = parseFloat(document.getElementById('gift-custom-amount').value);
+                return isNaN(v) || v < 50 ? 50 : v;
+            }
+            return selectedGift.amount;
+        }
+
+        function updateCustomGiftAmount() {
+            renderGiftPixQR();
+        }
+
+        function renderGiftPixQR() {
+            const amount = getActiveGiftAmount();
+            document.getElementById('pix-amount-label').textContent = `R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+
+            currentPixEmvString = buildPixEmvPayload(settings.pixKey, amount, 'IE2027');
+
+            const box = document.getElementById('pix-qrcode-box');
+            box.innerHTML = '';
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(box, {
+                    text: currentPixEmvString,
+                    width: 156,
+                    height: 156,
+                    colorDark: '#0F1E36',
+                    colorLight: '#FFFFFF',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+        }
+
+        function switchGiftPaymentTab(tab) {
+            const tabPix = document.getElementById('gift-tab-pix');
+            const tabCard = document.getElementById('gift-tab-card');
+            const panePix = document.getElementById('gift-pane-pix');
+            const paneCard = document.getElementById('gift-pane-card');
+
+            if (tab === 'pix') {
+                tabPix.className = 'py-3 text-xs font-bold uppercase tracking-wider bg-navy-800 text-white flex items-center justify-center gap-2 transition';
+                tabCard.className = 'py-3 text-xs font-bold uppercase tracking-wider bg-serene-50 text-navy-900 hover:bg-serene-100 flex items-center justify-center gap-2 transition';
+                panePix.classList.remove('hidden');
+                paneCard.classList.add('hidden');
+            } else {
+                tabCard.className = 'py-3 text-xs font-bold uppercase tracking-wider bg-navy-800 text-white flex items-center justify-center gap-2 transition';
+                tabPix.className = 'py-3 text-xs font-bold uppercase tracking-wider bg-serene-50 text-navy-900 hover:bg-serene-100 flex items-center justify-center gap-2 transition';
+                paneCard.classList.remove('hidden');
+                panePix.classList.add('hidden');
+
+                const targetUrl = getInfinitePayLinkForGift(selectedGift);
+                const btn = document.getElementById('card-checkout-btn');
+                const hint = document.getElementById('card-link-hint');
+                if (targetUrl) {
+                    btn.href = targetUrl;
+                    hint.textContent = 'Ao clicar, seu recado será salvo e você será levado direto ao checkout seguro da InfinitePay.';
+                } else {
+                    btn.href = '#';
+                    hint.textContent = 'Os noivos ainda estão finalizando o vínculo direto deste link — clique para solicitar o link da InfinitePay no WhatsApp ou pague via Pix!';
+                }
+            }
+        }
+
+        function getInfinitePayLinkForGift(gift) {
+            if (!gift) return settings.infinitePayDefaultLink || '';
+            const specific = settings.infinitePayItemLinks && settings.infinitePayItemLinks[String(gift.id)];
+            if (specific && specific.startsWith('http')) return specific;
+            if (settings.infinitePayDefaultLink && settings.infinitePayDefaultLink.startsWith('http')) return settings.infinitePayDefaultLink;
+            return '';
+        }
+
+        function handleInfinitePayClick(e) {
+            const targetUrl = getInfinitePayLinkForGift(selectedGift);
+            if (!targetUrl) {
+                e.preventDefault();
+                const amount = getActiveGiftAmount();
+                const waMsg = encodeURIComponent(`Olá Ivan & Emmylle! Gostaria de presentear vocês no cartão via InfinitePay com a cota "${selectedGift.title}" (R$ ${amount.toFixed(2).replace('.', ',')}). Podem me enviar o link?`);
+                window.open(`https://wa.me/${settings.couplePhone}?text=${waMsg}`, '_blank');
+                showToast('Abrindo WhatsApp dos noivos para envio do link InfinitePay!');
+                return;
+            }
+            confirmGiftRecord('Cartão InfinitePay', true);
+        }
+
+        function copyPixEmvPayload() {
+            if (!currentPixEmvString) renderGiftPixQR();
+            copyText(currentPixEmvString, 'Código Pix Copia e Cola (com valor exato) copiado!');
+        }
+
+        function copyPixKey() {
+            copyText(settings.pixKey, `Chave Pix (${settings.pixKey}) copiada!`);
+        }
+
+        function confirmGiftRecord(methodLabel = 'Pix', keepOpen = false) {
+            const sender = document.getElementById('gift-sender-name').value.trim() || 'Convidado Especial';
+            const note = document.getElementById('gift-note-input').value.trim() || 'Felicidades ao casal!';
+            const amount = getActiveGiftAmount();
+
+            receivedGifts.unshift({
+                id: Date.now(),
+                sender,
+                giftTitle: selectedGift ? selectedGift.title : 'Presente',
+                numericAmount: amount,
+                amount: `R$ ${amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`,
+                goalTarget: selectedGift && selectedGift.goalTarget ? selectedGift.goalTarget : null,
+                method: methodLabel,
+                note,
+                date: new Date().toLocaleDateString('pt-BR')
+            });
+            safeSetStorage('ie_wedding_gifts_v7', receivedGifts);
+            updateGoalsProgressUI();
+
+            if (!keepOpen) {
+                document.getElementById('gift-sender-name').value = '';
+                document.getElementById('gift-note-input').value = '';
+                closeGiftModal();
+                showToast('Presente e recado registrados com muito carinho!');
+            }
+        }
+
+        // ==========================================
+        // 12. RSVP & PASSE VIP DIGITAL
+        // ==========================================
+        function toggleAttendingFields() {
+            const val = document.querySelector('input[name="attending"]:checked').value;
+            document.getElementById('attending-details').classList.toggle('hidden', val !== 'sim');
+        }
+
+        function renderCompanionInputs() {
+            const adults = parseInt(document.getElementById('adults-count').value, 10);
+            const kids = parseInt(document.getElementById('kids-count').value, 10);
+            const totalExtra = (adults - 1) + kids;
+
+            const wrapper = document.getElementById('companions-wrapper');
+            const list = document.getElementById('companions-list');
+            list.innerHTML = '';
+
+            if (totalExtra <= 0) {
+                wrapper.classList.add('hidden');
+                return;
+            }
+
+            wrapper.classList.remove('hidden');
+            for (let i = 1; i <= totalExtra; i++) {
+                const isKid = i > (adults - 1);
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.required = true;
+                inp.className = 'companion-name-input w-full px-3.5 py-2.5 rounded-xl border border-serene-200 bg-white text-sm outline-none focus:border-navy-800';
+                inp.placeholder = isKid ? `Nome da criança ${i - (adults - 1)}` : `Nome do acompanhante ${i}`;
+                list.appendChild(inp);
+            }
+        }
+
+        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const attending = document.querySelector('input[name="attending"]:checked').value === 'sim';
+            const name = document.getElementById('guest-name').value.trim();
+            const phone = document.getElementById('guest-phone').value.trim();
+            const adults = attending ? parseInt(document.getElementById('adults-count').value, 10) : 0;
+            const kids = attending ? parseInt(document.getElementById('kids-count').value, 10) : 0;
+            const dietary = attending ? document.getElementById('dietary-notes').value.trim() : '';
+            const songRequest = attending ? document.getElementById('song-request').value.trim() : '';
+            const message = document.getElementById('guest-message').value.trim();
+
+            const companions = attending
+                ? Array.from(document.querySelectorAll('.companion-name-input')).map(i => i.value.trim()).filter(Boolean)
+                : [];
+
+            const ticketCode = 'IE27-' + Math.random().toString(36).substring(2, 7).toUpperCase();
+
+            const entry = {
+                id: Date.now(),
+                name,
+                phone,
+                attending,
+                adults,
+                kids,
+                companions: companions.join(', '),
+                dietary,
+                songRequest,
+                message,
+                ticketCode,
+                createdAt: new Date().toLocaleDateString('pt-BR')
+            };
+
+            guests.unshift(entry);
+            safeSetStorage('ie_wedding_guests_v7', guests);
+
+            if (!attending) {
+                showToast('Agradecemos o seu aviso e o seu carinho!');
+                this.reset();
+                toggleAttendingFields();
+                return;
+            }
+
+            currentTicketData = entry;
+            document.getElementById('rsvp-form-card').classList.add('hidden');
+            const resultEl = document.getElementById('vip-pass-result');
+            resultEl.classList.remove('hidden');
+
+            document.getElementById('ticket-name').textContent = name;
+            document.getElementById('ticket-pax').textContent = `${adults} Adulto(s)` + (kids > 0 ? ` + ${kids} Criança(s)` : '');
+            document.getElementById('ticket-code').textContent = ticketCode;
+
+            const compBox = document.getElementById('ticket-companions-box');
+            if (companions.length > 0) {
+                compBox.classList.remove('hidden');
+                document.getElementById('ticket-companions').textContent = companions.join(' • ');
+            } else {
+                compBox.classList.add('hidden');
+            }
+
+            const qrBox = document.getElementById('vip-qrcode');
+            qrBox.innerHTML = '';
+            if (typeof QRCode !== 'undefined') {
+                new QRCode(qrBox, {
+                    text: `CASAMENTO IVAN & EMMYLLE | 20/11/2027 | ${ticketCode} | ${name} | Pax: ${adults + kids}`,
+                    width: 136,
+                    height: 136,
+                    colorDark: '#0F1E36',
+                    colorLight: '#FFFFFF',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
+
+            const waMsg = encodeURIComponent(`Olá Ivan & Emmylle! Confirmei minha presença no casamento dia 20/11/2027 às 16h no Villa Rio!\n\nNome: ${name}\nConfirmados: ${adults + kids} pessoa(s)\nPasse VIP: ${ticketCode}`);
+            document.getElementById('whatsapp-share-btn').href = `https://wa.me/${settings.couplePhone}?text=${waMsg}`;
+
+            resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+
+        function resetRSVPForm() {
+            document.getElementById('rsvp-form').reset();
+            renderCompanionInputs();
+            document.getElementById('vip-pass-result').classList.add('hidden');
+            document.getElementById('rsvp-form-card').classList.remove('hidden');
+        }
+
+        function downloadVIPPassImage() {
+            if (!currentTicketData) return;
+            const canvas = document.createElement('canvas');
+            canvas.width = 720;
+            canvas.height = 960;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, 720, 960);
+
+            ctx.fillStyle = '#0F1E36';
+            ctx.fillRect(0, 0, 720, 210);
+
+            ctx.fillStyle = '#B08954';
+            ctx.fillRect(0, 210, 720, 10);
+
+            ctx.fillStyle = '#A3C1E0';
+            ctx.font = '600 18px sans-serif';
+            ctx.fillText('PASSE VIP DIGITAL • CONVITE INDIVIDUAL', 50, 75);
+
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = 'italic 54px Georgia, serif';
+            ctx.fillText('Ivan & Emmylle', 50, 145);
+
+            ctx.fillStyle = '#8C6239';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.fillText('CONVIDADO(A) PRINCIPAL', 50, 290);
+
+            ctx.fillStyle = '#0F1E36';
+            ctx.font = 'bold 38px Georgia, serif';
+            ctx.fillText(currentTicketData.name, 50, 340);
+
+            ctx.fillStyle = '#64748B';
+            ctx.font = 'bold 15px sans-serif';
+            ctx.fillText('DATA E HORÁRIO', 50, 415);
+            ctx.fillStyle = '#0F1E36';
+            ctx.font = 'bold 24px sans-serif';
+            ctx.fillText('20 de Novembro de 2027 • 16h00', 50, 450);
+
+            ctx.fillStyle = '#64748B';
+            ctx.font = 'bold 15px sans-serif';
+            ctx.fillText('ACESSO CONFIRMADO', 50, 515);
+            ctx.fillStyle = '#8C6239';
+            ctx.font = 'bold 24px sans-serif';
+            ctx.fillText(`${currentTicketData.adults} Adulto(s)` + (currentTicketData.kids > 0 ? ` + ${currentTicketData.kids} Criança(s)` : ''), 50, 550);
+
+            ctx.fillStyle = '#64748B';
+            ctx.font = 'bold 15px sans-serif';
+            ctx.fillText('LOCAL', 50, 615);
+            ctx.fillStyle = '#0F1E36';
+            ctx.font = '20px sans-serif';
+            ctx.fillText('Villa Rio • R. Anísio Carneiro Leão, 118 - Maria Farinha, PE', 50, 650);
+
+            const qrCanvas = document.querySelector('#vip-qrcode canvas');
+            if (qrCanvas) {
+                ctx.drawImage(qrCanvas, 270, 700, 180, 180);
+            }
+
+            ctx.fillStyle = '#0F1E36';
+            ctx.font = 'bold 20px monospace';
+            ctx.fillText(currentTicketData.ticketCode, 295, 915);
+
+            const link = document.createElement('a');
+            link.download = `Convite-VIP-${currentTicketData.ticketCode}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('Convite VIP salvo como imagem PNG!');
+        }
+
+        // ==========================================
+        // 13. PAINEL DESENVOLVEDOR & NOIVOS (ADMIN)
+        // ==========================================
+        function openAdminModal() {
+            if (!isDevMode) {
+                requestDevAccess();
+                return;
+            }
+            updateAdminDashboard();
+            document.getElementById('cfg-pix-key').value = settings.pixKey;
+            document.getElementById('cfg-couple-phone').value = settings.couplePhone;
+            document.getElementById('cfg-infinitepay-default').value = settings.infinitePayDefaultLink || '';
+            document.getElementById('cfg-sb-url').value = settings.sbUrl || '';
+            document.getElementById('cfg-sb-key').value = settings.sbKey || '';
+
+            const modal = document.getElementById('admin-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeAdminModal() {
+            const modal = document.getElementById('admin-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function switchAdminTab(tab) {
+            ['guests', 'photos', 'gifts', 'settings'].forEach(t => {
+                document.getElementById(`admin-tab-${t}`).classList.add('hidden');
+                const b = document.getElementById(`tab-btn-${t}`);
+                b.classList.remove('border-navy-800', 'text-navy-900');
+                b.classList.add('border-transparent', 'text-slate-500');
+            });
+            document.getElementById(`admin-tab-${tab}`).classList.remove('hidden');
+            const active = document.getElementById(`tab-btn-${tab}`);
+            active.classList.add('border-navy-800', 'text-navy-900');
+            active.classList.remove('border-transparent', 'text-slate-500');
+        }
+
+        function updateAdminDashboard() {
+            const confirmed = guests.filter(g => g.attending);
+            const adults = confirmed.reduce((s, g) => s + (g.adults || 0), 0);
+            const kids = confirmed.reduce((s, g) => s + (g.kids || 0), 0);
+
+            document.getElementById('stat-responses').textContent = guests.length;
+            document.getElementById('stat-adults').textContent = adults;
+            document.getElementById('stat-kids').textContent = kids;
+            document.getElementById('stat-total').textContent = adults + kids;
+
+            const searchTerm = (document.getElementById('admin-guest-search')?.value || '').toLowerCase();
+            const filteredGuests = guests.filter(g =>
+                g.name.toLowerCase().includes(searchTerm) ||
+                (g.songRequest || '').toLowerCase().includes(searchTerm) ||
+                (g.companions || '').toLowerCase().includes(searchTerm)
+            );
+
+            const tbody = document.getElementById('admin-guests-tbody');
+            tbody.innerHTML = filteredGuests.length === 0
+                ? '<tr><td colspan="5" class="p-6 text-center text-slate-400">Nenhuma confirmação encontrada.</td></tr>'
+                : filteredGuests.map(g => `
+                    <tr>
+                        <td class="p-3 font-bold text-navy-900">${g.name}<span class="block font-normal text-slate-400">${g.phone}</span></td>
+                        <td class="p-3"><span class="px-2.5 py-1 rounded-full text-[11px] font-bold ${g.attending ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'}">${g.attending ? 'Confirmado' : 'Não vai'}</span></td>
+                        <td class="p-3">${g.attending ? `${g.adults} Adt / ${g.kids} Cri` : '-'}</td>
+                        <td class="p-3 text-slate-600">
+                            ${g.companions ? `<div><strong>Acomp:</strong> ${g.companions}</div>` : ''}
+                            ${g.dietary ? `<div><strong>Obs:</strong> ${g.dietary}</div>` : ''}
+                            ${g.songRequest ? `<div><strong>DJ:</strong> ${g.songRequest}</div>` : ''}
+                        </td>
+                        <td class="p-3"><button onclick="deleteGuest(${g.id})" class="text-rose-500 hover:text-rose-700"><i class="fa-solid fa-trash"></i></button></td>
+                    </tr>
+                `).join('');
+
+            document.getElementById('admin-photos-count').textContent = `${socialPosts.length} fotos`;
+            const photosGrid = document.getElementById('admin-photos-grid');
+            photosGrid.innerHTML = socialPosts.map(p => `
+                <div class="border border-serene-200 rounded-2xl overflow-hidden bg-serene-50 flex flex-col">
+                    <img src="${p.image}" class="w-full h-36 object-cover">
+                    <div class="p-3 flex-1 flex flex-col justify-between gap-2">
+                        <div>
+                            <strong class="text-xs text-navy-900 block">${p.author}</strong>
+                            <p class="text-[11px] text-slate-600 line-clamp-2">${p.caption}</p>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-serene-200">
+                            <a href="${p.image}" download="Foto-${p.author}.jpg" class="text-[11px] font-bold text-navy-900 hover:underline">Baixar</a>
+                            <button onclick="deleteSocialPost('${p.id}')" class="px-2.5 py-1 rounded-lg bg-rose-600 text-white text-[11px] font-bold hover:bg-rose-500">Excluir Post</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Lista de inputs para links individuais da InfinitePay
+            const ipList = document.getElementById('admin-infinitepay-items-list');
+            const allLinkable = [
+                ...GIFTS_DATA,
+                EXTRA_GOAL_ITEMS['goal-honeymoon'],
+                EXTRA_GOAL_ITEMS['goal-home'],
+                EXTRA_GOAL_ITEMS['custom-free']
+            ];
+            ipList.innerHTML = allLinkable.map(item => {
+                const existing = (settings.infinitePayItemLinks && settings.infinitePayItemLinks[String(item.id)]) || '';
+                return `
+                    <div class="p-2.5 rounded-xl bg-white border border-serene-200">
+                        <label class="block text-[11px] font-bold text-navy-900 truncate mb-1">${item.title} (${item.price})</label>
+                        <input type="url" data-gift-link-id="${item.id}" value="${existing}" placeholder="https://link.infinitepay.io/..." class="infinitepay-item-input w-full px-2.5 py-1.5 rounded-lg border border-serene-200 text-xs outline-none focus:border-navy-800">
+                    </div>
+                `;
+            }).join('');
+
+            const giftsList = document.getElementById('admin-gifts-list');
+            giftsList.innerHTML = receivedGifts.length === 0
+                ? '<p class="text-xs text-slate-400 p-4 text-center border border-dashed border-serene-200 rounded-2xl">Nenhum mimo registrado ainda.</p>'
+                : receivedGifts.map(g => `
+                    <div class="p-3.5 rounded-2xl bg-serene-50 border border-serene-200 flex items-center justify-between gap-3 text-xs">
+                        <div>
+                            <strong class="text-navy-900">${g.sender}</strong> • <span class="font-bold text-wood-600">${g.giftTitle} (${g.amount})</span>
+                            <span class="ml-2 px-2 py-0.5 rounded-full bg-white border border-serene-200 text-[10px] font-bold">${g.method}</span>
+                            <p class="text-slate-600 mt-1">"${g.note}"</p>
+                        </div>
+                        <span class="text-slate-400 shrink-0">${g.date}</span>
+                    </div>
+                `).join('');
+        }
+
+        function saveInfinitePayLinks() {
+            if (!isDevMode) return;
+            settings.infinitePayDefaultLink = document.getElementById('cfg-infinitepay-default').value.trim();
+            settings.infinitePayItemLinks = settings.infinitePayItemLinks || {};
+            document.querySelectorAll('.infinitepay-item-input').forEach(inp => {
+                const id = inp.getAttribute('data-gift-link-id');
+                settings.infinitePayItemLinks[id] = inp.value.trim();
+            });
+            safeSetStorage('ie_wedding_settings_v7', settings);
+            showToast('Links da InfinitePay salvos com sucesso!');
+        }
+
+        function deleteGuest(id) {
+            if (!isDevMode) return;
+            guests = guests.filter(g => g.id !== id);
+            safeSetStorage('ie_wedding_guests_v7', guests);
+            updateAdminDashboard();
+            showToast('Registro removido.');
+        }
+
+        function deleteSocialPost(id) {
+            if (!isDevMode) {
+                showToast('Apenas o Modo Desenvolvedor pode excluir publicações.');
+                return;
+            }
+            socialPosts = socialPosts.filter(p => p.id !== id);
+            safeSetStorage('ie_wedding_social_posts_v7', socialPosts);
+            renderSocialFeed();
+            if (!document.getElementById('admin-modal').classList.contains('hidden')) {
+                updateAdminDashboard();
+            }
+            showToast('Publicação excluída com sucesso!');
+        }
+
+        function exportGuestsCSV() {
+            const headers = ['Nome', 'WhatsApp', 'Status', 'Adultos', 'Criancas', 'Acompanhantes', 'Restricoes', 'Musica DJ', 'Codigo VIP', 'Mensagem'];
+            const rows = guests.map(g => [
+                `"${g.name}"`, `"${g.phone}"`, g.attending ? 'Confirmado' : 'Nao vai',
+                g.adults, g.kids, `"${g.companions || ''}"`, `"${g.dietary || ''}"`,
+                `"${g.songRequest || ''}"`, g.ticketCode, `"${(g.message || '').replace(/"/g, '""')}"`
+            ]);
+            const csv = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+            const link = document.createElement('a');
+            link.href = encodeURI(csv);
+            link.download = 'Convidados-Ivan-e-Emmylle-2027.csv';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Planilha CSV baixada!');
+        }
+
+        function saveAdminSettings() {
+            if (!isDevMode) return;
+            settings.pixKey = document.getElementById('cfg-pix-key').value.trim() || DEFAULT_SETTINGS.pixKey;
+            settings.couplePhone = document.getElementById('cfg-couple-phone').value.trim() || DEFAULT_SETTINGS.couplePhone;
+            settings.sbUrl = document.getElementById('cfg-sb-url').value.trim();
+            settings.sbKey = document.getElementById('cfg-sb-key').value.trim();
+            safeSetStorage('ie_wedding_settings_v7', settings);
+            document.getElementById('banner-pix-key').textContent = settings.pixKey;
+            showToast('Configurações de Pix e Banco salvas!');
+        }
+
+        // ==========================================
+        // 14. UTILITÁRIOS & INICIALIZAÇÃO
+        // ==========================================
+        function copyText(text, msg) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast(msg);
+        }
+
+        function showToast(msg) {
+            const container = document.getElementById('toast-container');
+            const el = document.createElement('div');
+            el.className = 'bg-navy-900 text-white px-5 py-3.5 rounded-2xl shadow-xl border border-wood-400 text-xs font-medium flex items-center gap-3 pointer-events-auto transition-all duration-300';
+            el.innerHTML = `<i class="fa-solid fa-circle-check text-wood-300 text-base"></i><span>${msg}</span>`;
+            container.appendChild(el);
+            setTimeout(() => {
+                el.style.opacity = '0';
+                setTimeout(() => el.remove(), 300);
+            }, 3500);
+        }
+
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        document.querySelectorAll('.mobile-link').forEach(l => {
+            l.addEventListener('click', () => document.getElementById('mobile-menu').classList.add('hidden'));
+        });
+
+        document.getElementById('banner-pix-key').textContent = settings.pixKey;
+        applyAllSlotImages();
+        renderCoupleGallery();
+        renderSocialFeed();
+        renderGifts();
+        updateGoalsProgressUI();
+    </script>
+</body>
+</html>
